@@ -84,6 +84,7 @@ const Preview = () => {
       pdf.save(`${personalInfo.fullName || 'CV'}-Resume.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
+      alert('Unable to generate PDF. Please try using the DOC export instead.');
     }
   };
 
