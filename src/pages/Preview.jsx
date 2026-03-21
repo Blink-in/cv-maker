@@ -28,15 +28,12 @@ const Preview = () => {
     executive: '#1f2937',
     creative: '#8b5cf6',
     minimal: '#10b981',
-    academic: '#f59e0b',
     professional: '#2563eb',
     elegant: '#7c3aed',
-    fresh: '#06b6d4',
     timeless: '#4b5563',
     bold: '#dc2626',
     simple: '#6b7280',
     premium: '#92400e',
-    standard: '#0d9488',
     functional: '#7c3aed',
   };
 
@@ -49,15 +46,12 @@ const Preview = () => {
     executive: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
     creative: ['summary', 'skills', 'projects', 'experience', 'education', 'certifications'],
     minimal: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
-    academic: ['education', 'experience', 'certifications', 'skills', 'projects', 'summary'],
     professional: ['summary', 'skills', 'experience', 'education', 'certifications', 'projects'],
     elegant: ['summary', 'experience', 'skills', 'education', 'projects', 'certifications'],
-    fresh: ['skills', 'summary', 'experience', 'education', 'projects', 'certifications'],
     timeless: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
     bold: ['summary', 'experience', 'projects', 'skills', 'education', 'certifications'],
     simple: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
     premium: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    standard: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
     functional: ['skills', 'summary', 'experience', 'education', 'certifications', 'projects'],
   };
 
@@ -94,48 +88,116 @@ const Preview = () => {
   };
 
   const handleDownloadDOCX = () => {
-    const cvContent = `
-      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><meta charset='utf-8'><title>${personalInfo.fullName || 'CV'} - Resume</title></head>
-      <body style="font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto;">
-        <h1 style="color: ${color}; border-bottom: 3px solid ${color}; padding-bottom: 10px;">${personalInfo.fullName || 'Your Name'}</h1>
-        
-        ${personalInfo.summary ? `<p style="margin-top: 20px;">${personalInfo.summary}</p>` : ''}
-        
-        <h2 style="color: ${color}; margin-top: 30px;">Contact Information</h2>
-        <p>Email: ${personalInfo.email || 'N/A'} | Phone: ${personalInfo.phone || 'N/A'} | Location: ${personalInfo.address || 'N/A'}</p>
-        
-        ${experience.length > 0 ? `
-        <h2 style="color: ${color}; margin-top: 30px;">Work Experience</h2>
-        ${experience.map(exp => `
-          <div style="margin-bottom: 20px;">
-            <h3>${exp.position || 'Position'}</h3>
-            <p><strong>${exp.company || 'Company'}</strong> | ${exp.startDate || ''} - ${exp.currentlyWorking ? 'Present' : exp.endDate || ''}</p>
-            ${exp.description ? `<p>${exp.description}</p>` : ''}
-          </div>
-        `).join('')}
-        ` : ''}
-        
-        ${education.length > 0 ? `
-        <h2 style="color: ${color}; margin-top: 30px;">Education</h2>
-        ${education.map(edu => `
-          <div style="margin-bottom: 15px;">
-            <h3>${edu.degree || ''} ${edu.fieldOfStudy ? 'in ' + edu.fieldOfStudy : ''}</h3>
-            <p><strong>${edu.institution || 'Institution'}</strong> | ${edu.startDate || ''} - ${edu.currentlyStudying ? 'Present' : edu.endDate || ''}</p>
-          </div>
-        `).join('')}
-        ` : ''}
-        
-        ${skills.technical.length > 0 ? `
-        <h2 style="color: ${color}; margin-top: 30px;">Skills</h2>
-        <p>${skills.technical.map(s => s.name).join(', ')}</p>
-        ` : ''}
-        
-      </body>
-      </html>
-    `;
+    const escapeHtml = (text) => {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
 
-    const blob = new Blob([cvContent], { type: 'application/msword' });
+    const renderAchievements = (achievements) => {
+      if (!achievements || achievements.length === 0) return '';
+      return `<ul style="margin-top: 5px;">${achievements.filter(a => a).map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>`;
+    };
+
+    const cvContent = `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Word.Document"?>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+      xmlns:w='urn:schemas-microsoft-com:office:word' 
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>${escapeHtml(personalInfo.fullName) || 'CV'} - Resume</title>
+<style>
+body { font-family: 'Calibri', Arial, sans-serif; font-size: 11pt; }
+h1 { color: ${color}; font-size: 24pt; margin-bottom: 5px; }
+h2 { color: ${color}; font-size: 14pt; margin-top: 18pt; margin-bottom: 8pt; border-bottom: 1pt solid ${color}; }
+h3 { font-size: 12pt; margin-bottom: 3px; }
+p { margin-bottom: 8pt; }
+table { border-collapse: collapse; width: 100%; }
+td { padding: 5px; vertical-align: top; }
+</style>
+</head>
+<body style="padding: 40px; max-width: 800px; margin: 0 auto;">
+
+<table style="width: 100%; border-bottom: 2pt solid ${color}; margin-bottom: 15pt;">
+<tr>
+<td>
+<h1>${escapeHtml(personalInfo.fullName) || 'Your Name'}</h1>
+${personalInfo.professionalTitle ? `<p style="font-size: 14pt; color: ${color};"><strong>${escapeHtml(personalInfo.professionalTitle)}</strong></p>` : ''}
+</td>
+</tr>
+</table>
+
+${personalInfo.summary ? `
+<p style="margin-top: 10pt;">${escapeHtml(personalInfo.summary)}</p>
+` : ''}
+
+<table style="width: 100%; margin-bottom: 10pt;">
+${personalInfo.email ? `<tr><td style="width: 100pt;"><strong>Email:</strong></td><td>${escapeHtml(personalInfo.email)}</td></tr>` : ''}
+${personalInfo.phone ? `<tr><td style="width: 100pt;"><strong>Phone:</strong></td><td>${escapeHtml(personalInfo.phone)}</td></tr>` : ''}
+${personalInfo.address ? `<tr><td style="width: 100pt;"><strong>Location:</strong></td><td>${escapeHtml(personalInfo.address)}</td></tr>` : ''}
+${personalInfo.linkedIn ? `<tr><td style="width: 100pt;"><strong>LinkedIn:</strong></td><td>${escapeHtml(personalInfo.linkedIn)}</td></tr>` : ''}
+${personalInfo.portfolio ? `<tr><td style="width: 100pt;"><strong>Website:</strong></td><td>${escapeHtml(personalInfo.portfolio)}</td></tr>` : ''}
+</table>
+
+${experience.length > 0 ? `
+<h2>Work Experience</h2>
+${experience.map(exp => `
+<div style="margin-bottom: 15pt;">
+<h3>${escapeHtml(exp.position) || 'Position'}</h3>
+<p><strong>${escapeHtml(exp.company) || 'Company'}</strong> | ${escapeHtml(exp.startDate) || ''} - ${exp.currentlyWorking ? 'Present' : escapeHtml(exp.endDate) || ''}</p>
+${exp.description ? `<p>${escapeHtml(exp.description)}</p>` : ''}
+${renderAchievements(exp.achievements)}
+</div>
+`).join('')}
+` : ''}
+
+${education.length > 0 ? `
+<h2>Education</h2>
+${education.map(edu => `
+<div style="margin-bottom: 10pt;">
+<h3>${escapeHtml(edu.degree) || ''} ${edu.fieldOfStudy ? 'in ' + escapeHtml(edu.fieldOfStudy) : ''}</h3>
+<p><strong>${escapeHtml(edu.institution) || 'Institution'}</strong> | ${escapeHtml(edu.startDate) || ''} - ${edu.currentlyStudying ? 'Present' : escapeHtml(edu.endDate) || ''}</p>
+${edu.gpa ? `<p>GPA: ${escapeHtml(edu.gpa)}</p>` : ''}
+</div>
+`).join('')}
+` : ''}
+
+${skills.technical.length > 0 || skills.soft.length > 0 || skills.languages.length > 0 ? `
+<h2>Skills</h2>
+${skills.technical.length > 0 ? `<p><strong>Technical:</strong> ${skills.technical.map(s => escapeHtml(s.name)).join(', ')}</p>` : ''}
+${skills.soft.length > 0 ? `<p><strong>Soft Skills:</strong> ${skills.soft.map(s => escapeHtml(s.name)).join(', ')}</p>` : ''}
+${skills.languages.length > 0 ? `<p><strong>Languages:</strong> ${skills.languages.map(l => escapeHtml(l.name)).join(', ')}</p>` : ''}
+` : ''}
+
+${projects.length > 0 ? `
+<h2>Projects</h2>
+${projects.map(p => `
+<div style="margin-bottom: 10pt;">
+<h3>${escapeHtml(p.name)}</h3>
+${p.description ? `<p>${escapeHtml(p.description)}</p>` : ''}
+${p.technologies?.length > 0 ? `<p><em>Technologies: ${p.technologies.join(', ')}</em></p>` : ''}
+</div>
+`).join('')}
+` : ''}
+
+${certifications.length > 0 ? `
+<h2>Certifications</h2>
+${certifications.map(c => `
+<div style="margin-bottom: 8pt;">
+<p><strong>${escapeHtml(c.name)}</strong>${c.issuer ? ` - ${escapeHtml(c.issuer)}` : ''}${c.date ? ` (${escapeHtml(c.date)})` : ''}</p>
+</div>
+`).join('')}
+` : ''}
+
+</body>
+</html>`;
+
+    const blob = new Blob([cvContent], { type: 'application/vnd.ms-word;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -367,7 +429,8 @@ const Preview = () => {
   const renderModernTemplate = () => (
     <>
       <div className="border-b-4 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-bold mb-2" style={{ color }}>{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-bold mb-1" style={{ color }}>{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium mb-3" style={{ color }}>{personalInfo.professionalTitle}</p>}
         {personalInfo.summary && <p className="text-gray-600 mb-4 text-sm leading-relaxed">{personalInfo.summary}</p>}
         {renderContactInfo()}
       </div>
@@ -390,7 +453,8 @@ const Preview = () => {
   const renderClassicTemplate = () => (
     <>
       <div className="text-center border-b-2 border-gray-800 pb-6 mb-6">
-        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         <div className="text-gray-600 mb-4">{personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}{personalInfo.address && ` | ${personalInfo.address}`}</div>
         {personalInfo.summary && <p className="text-gray-700 text-sm italic">{personalInfo.summary}</p>}
       </div>
@@ -408,15 +472,10 @@ const Preview = () => {
           <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center"><span className="text-2xl font-serif font-bold">{(personalInfo.fullName || 'YN').split(' ').map(n => n[0]).join('')}</span></div>
           <div>
             <h1 className="text-3xl font-serif font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-            <p className="text-gray-300 text-sm uppercase tracking-wider">Executive Profile</p>
+            <p className="text-gray-300 text-sm uppercase tracking-wider">{personalInfo.professionalTitle || 'Professional Profile'}</p>
           </div>
         </div>
         {personalInfo.summary && <p className="text-gray-300 mt-4 text-sm">{personalInfo.summary}</p>}
-        <div className="flex flex-wrap gap-4 mt-4 text-xs text-gray-400">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.phone && <span>{personalInfo.phone}</span>}
-          {personalInfo.address && <span>{personalInfo.address}</span>}
-        </div>
       </div>
       <div className="flex gap-6">
         <div className="w-1/3 bg-gray-50 p-4 rounded-lg">
@@ -438,8 +497,9 @@ const Preview = () => {
   const renderCreativeTemplate = () => (
     <>
       <div className="rounded-xl p-6 mb-6 text-white" style={{ background: `linear-gradient(135deg, ${color}, ${color}dd)` }}>
-        <h1 className="text-4xl font-bold mb-2">{personalInfo.fullName || 'Your Name'}</h1>
-        <p className="text-white/90 mb-4 text-sm">{personalInfo.summary || 'Creative Professional'}</p>
+        <h1 className="text-4xl font-bold mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-white/90 mb-2 text-lg font-medium">{personalInfo.professionalTitle}</p>}
+        <p className="text-white/80 mb-4 text-sm">{personalInfo.summary || 'Creative Professional'}</p>
         <div className="flex flex-wrap gap-4 text-sm text-white/80">
           {personalInfo.email && <div className="flex items-center gap-1"><Mail className="w-4 h-4" /><span>{personalInfo.email}</span></div>}
           {personalInfo.phone && <div className="flex items-center gap-1"><Phone className="w-4 h-4" /><span>{personalInfo.phone}</span></div>}
@@ -457,6 +517,7 @@ const Preview = () => {
     <>
       <div className="mb-6">
         <h1 className="text-4xl font-bold text-black mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         <p className="text-gray-500 text-sm mb-4">{personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}{personalInfo.address && ` | ${personalInfo.address}`}</p>
         {personalInfo.summary && <p className="text-gray-700 text-sm leading-relaxed border-l-2 border-black pl-4">{personalInfo.summary}</p>}
       </div>
@@ -467,36 +528,25 @@ const Preview = () => {
     </>
   );
 
-  const renderAcademicTemplate = () => (
-    <>
-      <div className="rounded-lg p-6 mb-6 text-white" style={{ backgroundColor: color }}>
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center"><GraduationCap className="w-8 h-8" style={{ color }} /></div>
-          <div><h1 className="text-3xl font-serif font-bold">{personalInfo.fullName || 'Dr. Your Name'}</h1><p className="text-white/90">{personalInfo.summary ? 'Academic Profile' : 'Researcher & Educator'}</p></div>
-        </div>
-        <div className="flex flex-wrap gap-4 mt-4 text-sm text-white/80">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.address && <span>{personalInfo.address}</span>}
-        </div>
-      </div>
-      {education.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Education</h2><div className="space-y-4">{education.map((e, i) => <div key={i}><h3 className="font-semibold text-lg">{e.degree}{e.fieldOfStudy ? ' in ' + e.fieldOfStudy : ''}</h3><div className="text-gray-600">{e.institution} | {e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div>{e.gpa && <div className="text-sm text-gray-500">GPA: {e.gpa}</div>}</div>)}</div></div>}
-      {experience.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Research & Experience</h2><div className="space-y-4">{experience.map((e, i) => <div key={i}><h3 className="font-semibold">{e.position}</h3><div className="text-gray-600">{e.company} | {e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div>{e.description && <p className="text-sm text-gray-600 mt-1">{e.description}</p>}</div>)}</div></div>}
-      {certifications.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Publications & Certifications</h2><div className="space-y-3">{certifications.map((c, i) => <div key={i} className="bg-gray-50 p-3 rounded"><div className="font-medium">{c.name}</div><div className="text-sm text-gray-500">{c.issuer} | {c.date}</div></div>)}</div></div>}
-    </>
-  );
-
   const renderProfessionalTemplate = () => (
     <>
       <div className="rounded-lg p-6 mb-6 text-white flex items-center justify-between" style={{ backgroundColor: color }}>
         <div>
           <h1 className="text-3xl font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-          <p className="text-white/80">{personalInfo.summary?.substring(0, 60) || 'Professional Summary'}</p>
+          {personalInfo.professionalTitle && <p className="text-white/80">{personalInfo.professionalTitle}</p>}
         </div>
         <div className="text-right text-sm">
           {personalInfo.email && <div>{personalInfo.email}</div>}
           {personalInfo.phone && <div>{personalInfo.phone}</div>}
+          {personalInfo.address && <div>{personalInfo.address}</div>}
         </div>
       </div>
+      {personalInfo.summary && (
+        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h2 className="text-lg font-bold mb-2" style={{ color }}>Professional Summary</h2>
+          <p className="text-gray-700">{personalInfo.summary}</p>
+        </div>
+      )}
       {renderSkills('professional')}
       {renderExperience()}
       {renderEducation()}
@@ -507,7 +557,8 @@ const Preview = () => {
   const renderElegantTemplate = () => (
     <>
       <div className="text-center border-b-2 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         {personalInfo.summary && (
           <div className="mt-4">
             <p className="text-gray-600 italic">"{personalInfo.summary}"</p>
@@ -526,27 +577,11 @@ const Preview = () => {
     </>
   );
 
-  const renderFreshTemplate = () => (
-    <>
-      <div className="rounded-xl p-6 mb-6 text-white" style={{ background: `linear-gradient(90deg, ${color}, ${color}cc)` }}>
-        <h1 className="text-4xl font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-        <p className="text-cyan-100 mt-1">{personalInfo.summary?.substring(0, 50) || 'Professional Summary'}</p>
-        <div className="flex gap-4 mt-4 text-sm">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.portfolio && <span>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</span>}
-        </div>
-      </div>
-      {renderSkills('fresh')}
-      {renderExperience()}
-      {renderEducation()}
-      {renderProjects()}
-    </>
-  );
-
   const renderTimelessTemplate = () => (
     <>
       <div className="border-b-4 border-gray-600 pb-6 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         <div className="text-gray-600">{personalInfo.email} | {personalInfo.phone} | {personalInfo.address}</div>
       </div>
       {personalInfo.summary && (
@@ -564,8 +599,9 @@ const Preview = () => {
   const renderBoldTemplate = () => (
     <>
       <div className="rounded-xl p-6 mb-6 text-white font-bold text-center" style={{ backgroundColor: color }}>
-        <h1 className="text-4xl mb-2">{personalInfo.fullName || 'Your Name'}</h1>
-        <p className="text-white/90 font-normal">{personalInfo.summary?.substring(0, 60) || 'Professional Summary'}</p>
+        <h1 className="text-4xl mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-white/90 font-normal mb-1">{personalInfo.professionalTitle}</p>}
+        <p className="text-white/80 font-normal">{personalInfo.summary?.substring(0, 60) || 'Professional Summary'}</p>
       </div>
       {renderExperience()}
       {renderProjects()}
@@ -578,6 +614,7 @@ const Preview = () => {
     <>
       <div className="mb-6">
         <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         <p className="text-gray-500 mb-4">{personalInfo.email} | {personalInfo.phone}</p>
         {personalInfo.summary && <p className="text-gray-700">{personalInfo.summary}</p>}
       </div>
@@ -596,7 +633,8 @@ const Preview = () => {
   const renderPremiumTemplate = () => (
     <>
       <div className="border-b-2 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-serif font-bold mb-2" style={{ color: '#92400e' }}>{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-serif font-bold mb-1" style={{ color: '#92400e' }}>{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-amber-700 font-medium mb-2">{personalInfo.professionalTitle}</p>}
         <p className="text-amber-700 font-medium">{personalInfo.summary?.substring(0, 50) || 'Professional Title'}</p>
         <div className="flex gap-4 mt-3 text-sm text-gray-600">
           {personalInfo.email && <span>{personalInfo.email}</span>}
@@ -611,23 +649,11 @@ const Preview = () => {
     </>
   );
 
-  const renderStandardTemplate = () => (
-    <>
-      <div className="rounded-lg p-4 mb-6 text-white" style={{ backgroundColor: color }}>
-        <h1 className="text-3xl font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-        <p className="text-teal-100">{personalInfo.summary?.substring(0, 50) || 'Professional Summary'}</p>
-      </div>
-      {renderExperience()}
-      {renderEducation()}
-      {renderSkills('standard')}
-      {renderCertifications()}
-    </>
-  );
-
   const renderFunctionalTemplate = () => (
     <>
       <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
         <p className="text-gray-600">{personalInfo.email} | {personalInfo.phone}</p>
       </div>
       {renderSkills('functional')}
@@ -684,15 +710,12 @@ const Preview = () => {
       case 'executive': return renderExecutiveTemplate();
       case 'creative': return renderCreativeTemplate();
       case 'minimal': return renderMinimalTemplate();
-      case 'academic': return renderAcademicTemplate();
       case 'professional': return renderProfessionalTemplate();
       case 'elegant': return renderElegantTemplate();
-      case 'fresh': return renderFreshTemplate();
       case 'timeless': return renderTimelessTemplate();
       case 'bold': return renderBoldTemplate();
       case 'simple': return renderSimpleTemplate();
       case 'premium': return renderPremiumTemplate();
-      case 'standard': return renderStandardTemplate();
       case 'functional': return renderFunctionalTemplate();
       default: return renderModernTemplate();
     }

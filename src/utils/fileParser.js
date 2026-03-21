@@ -16,8 +16,11 @@ export const parsePdfFile = async (file) => {
     // Dynamic import for pdfjs-dist
     const pdfjsLib = await import('pdfjs-dist');
     
-    // Set worker source
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+    // Set worker source - use a reliable CDN
+    pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+      'pdfjs-dist/build/pdf.worker.min.mjs',
+      import.meta.url
+    ).toString();
     
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -34,38 +37,23 @@ export const parsePdfFile = async (file) => {
     return fullText;
   } catch (error) {
     console.error('PDF parsing error:', error);
-    throw new Error('Failed to parse PDF file');
+    throw new Error('Failed to parse PDF file. Please ensure the file is not password-protected or corrupted.');
   }
 };
 
-// Parse DOCX file
+// Parse DOCX file using mammoth
 export const parseDocxFile = async (file) => {
   try {
-    // Dynamic import for docx library
-    const { Document, Packer, Paragraph, TextRun } = await import('docx');
+    // Dynamic import for mammoth library
+    const mammoth = await import('mammoth');
     
     const arrayBuffer = await file.arrayBuffer();
-    const doc = await Document.load(arrayBuffer);
+    const result = await mammoth.extractRawText({ arrayBuffer });
     
-    let fullText = '';
-    
-    // Extract text from all paragraphs
-    doc.getChildren().forEach((child) => {
-      if (child instanceof Paragraph) {
-        let paragraphText = '';
-        child.getChildren().forEach((textChild) => {
-          if (textChild instanceof TextRun) {
-            paragraphText += textChild.text;
-          }
-        });
-        fullText += paragraphText + '\n';
-      }
-    });
-    
-    return fullText;
+    return result.value;
   } catch (error) {
     console.error('DOCX parsing error:', error);
-    throw new Error('Failed to parse DOCX file');
+    throw new Error('Failed to parse DOCX file. Please ensure the file is not password-protected or corrupted.');
   }
 };
 

@@ -19,15 +19,12 @@ const templates = [
   { id: 'executive', name: 'Executive Elite', color: '#1f2937' },
   { id: 'creative', name: 'Creative Designer', color: '#8b5cf6' },
   { id: 'minimal', name: 'Minimalist', color: '#10b981' },
-  { id: 'academic', name: 'Academic Scholar', color: '#f59e0b' },
   { id: 'professional', name: 'Corporate Professional', color: '#2563eb' },
   { id: 'elegant', name: 'Elegant Sophisticated', color: '#7c3aed' },
-  { id: 'fresh', name: 'Fresh Modern', color: '#06b6d4' },
   { id: 'timeless', name: 'Timeless Classic', color: '#4b5563' },
   { id: 'bold', name: 'Bold Impact', color: '#dc2626' },
   { id: 'simple', name: 'Simple Clean', color: '#6b7280' },
   { id: 'premium', name: 'Premium Executive', color: '#92400e' },
-  { id: 'standard', name: 'Standard Professional', color: '#0d9488' },
   { id: 'functional', name: 'Functional Skills', color: '#7c3aed' },
 ];
 

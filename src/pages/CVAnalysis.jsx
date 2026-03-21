@@ -588,33 +588,6 @@ const CVAnalysis = () => {
                 </div>
               )}
 
-              {/* Or use current CV */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <p className="text-center text-gray-500 mb-4">Or analyze the CV you're creating with us</p>
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleAnalyze}
-                    disabled={isAnalyzing}
-                    className={`flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all ${
-                      isAnalyzing
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-[#1783e0] to-[#10b981] text-white hover:shadow-lg hover:scale-105'
-                    }`}
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <RefreshCw className="w-5 h-5 animate-spin" />
-                        Analyzing Your CV...
-                      </>
-                    ) : (
-                      <>
-                        <BarChart3 className="w-5 h-5" />
-                        Analyze My CV
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
             </div>
 
             {/* How it works */}

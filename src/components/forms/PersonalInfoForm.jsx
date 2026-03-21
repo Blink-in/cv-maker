@@ -34,6 +34,22 @@ const PersonalInfoForm = () => {
           />
         </div>
 
+        {/* Professional Title */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            <FileText className="w-4 h-4 inline mr-2" />
+            Professional Title
+          </label>
+          <input
+            type="text"
+            name="professionalTitle"
+            value={personalInfo.professionalTitle}
+            onChange={handleChange}
+            placeholder="Senior Software Engineer"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1783e0] focus:border-transparent outline-none transition-all"
+          />
+        </div>
+
         {/* Email & Phone Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

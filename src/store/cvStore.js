@@ -11,6 +11,7 @@ const useCVStore = create(
       // Personal Information
       personalInfo: {
         fullName: '',
+        professionalTitle: '',
         email: '',
         phone: '',
         address: '',
@@ -105,6 +106,7 @@ const useCVStore = create(
         selectedTemplate: null,
         personalInfo: {
           fullName: '',
+          professionalTitle: '',
           email: '',
           phone: '',
           address: '',

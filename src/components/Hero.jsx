@@ -63,7 +63,7 @@ const Hero = () => {
             </button>
 
             <button 
-              onClick={() => navigate('/cv-analysis')}
+              onClick={() => navigate('/analyze')}
               className="inline-flex items-center justify-center gap-2 border-2 border-[#1783e0] text-[#1783e0] px-8 py-4 rounded-xl hover:bg-[#1783e0] hover:text-white transition-all font-semibold text-lg"
             >
               <BarChart3 className="w-5 h-5" />

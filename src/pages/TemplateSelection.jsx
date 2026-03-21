@@ -156,36 +156,7 @@ const templates = [
       </div>
     )
   },
-  {
-    id: 'academic',
-    name: 'Academic Scholar',
-    description: 'Designed for academics, researchers, and educators. Emphasizes education and publications.',
-    color: '#f59e0b',
-    icon: <GraduationCap className="w-6 h-6" />,
-    features: ['Publications', 'Research focus', 'Education emphasis'],
-    sectionOrder: ['education', 'experience', 'certifications', 'skills', 'projects', 'summary'],
-    preview: (
-      <div className="w-full h-full bg-white p-2 text-[4px]">
-        <div className="h-8 flex items-center gap-1" style={{ backgroundColor: '#f59e0b' }}>
-          <div className="w-4 h-4 bg-white rounded-full"></div>
-          <div className="text-white font-serif">DR. LISA PARK</div>
-        </div>
-        <div className="mt-1 text-center">
-          <div className="font-bold text-gray-800">Research Scientist</div>
-          <div className="text-amber-600">PhD, MIT</div>
-        </div>
-        <div className="mt-1">
-          <div className="font-bold text-amber-700">Publications</div>
-          <div className="text-gray-600 text-[3px]">• 15+ Peer-Reviewed Papers</div>
-          <div className="text-gray-600 text-[3px]">• Nature, Science Citations</div>
-        </div>
-        <div className="mt-1">
-          <div className="font-bold text-amber-700">Research</div>
-          <div className="text-gray-600 text-[3px]">AI & Machine Learning</div>
-        </div>
-      </div>
-    )
-  },
+
   {
     id: 'professional',
     name: 'Corporate Professional',
@@ -242,31 +213,7 @@ const templates = [
       </div>
     )
   },
-  {
-    id: 'fresh',
-    name: 'Fresh Modern',
-    description: 'Clean and refreshing design with a modern approach.',
-    color: '#06b6d4',
-    icon: <Code className="w-6 h-6" />,
-    features: ['Fresh look', 'Modern layout', 'Tech-friendly'],
-    sectionOrder: ['skills', 'summary', 'experience', 'education', 'projects', 'certifications'],
-    preview: (
-      <div className="w-full h-full bg-white p-2 text-[4px]">
-        <div className="h-8 rounded-lg p-1" style={{ background: 'linear-gradient(90deg, #06b6d4, #0891b2)' }}>
-          <div className="text-white font-bold">CHRISTOPHER LEE</div>
-          <div className="text-cyan-100 text-[3px]">Software Architect</div>
-        </div>
-        <div className="mt-1.5 grid grid-cols-3 gap-0.5">
-          <span className="bg-cyan-50 text-cyan-700 px-1 rounded text-[3px] text-center">React</span>
-          <span className="bg-cyan-50 text-cyan-700 px-1 rounded text-[3px] text-center">Node</span>
-          <span className="bg-cyan-50 text-cyan-700 px-1 rounded text-[3px] text-center">AWS</span>
-        </div>
-        <div className="mt-1">
-          <div className="text-gray-700 text-[3px]">Building scalable solutions</div>
-        </div>
-      </div>
-    )
-  },
+
   {
     id: 'timeless',
     name: 'Timeless Classic',
@@ -361,32 +308,6 @@ const templates = [
         </div>
         <div className="mt-1 bg-amber-50 p-1 rounded">
           <div className="text-amber-800 font-semibold">Finance & Strategy</div>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: 'standard',
-    name: 'Standard Professional',
-    description: 'Reliable and professional design that works for any job.',
-    color: '#0d9488',
-    icon: <Briefcase className="w-6 h-6" />,
-    features: ['Standard layout', 'Professional', 'Reliable'],
-    sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    preview: (
-      <div className="w-full h-full bg-white p-2 text-[4px]">
-        <div className="h-8 bg-teal-600 px-2 flex items-center">
-          <div className="text-white font-bold">SARAH DAVIS</div>
-        </div>
-        <div className="mt-1.5">
-          <div className="font-bold text-teal-700">Human Resources Manager</div>
-        </div>
-        <div className="mt-1">
-          <div className="text-gray-600">HR professional with expertise in</div>
-          <div className="text-gray-500">talent acquisition & development</div>
-        </div>
-        <div className="mt-1">
-          <div className="text-gray-700">HR Manager — 2015-Present</div>
         </div>
       </div>
     )
