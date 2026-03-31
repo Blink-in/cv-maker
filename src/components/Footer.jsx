@@ -5,16 +5,6 @@ import { FileText, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
-      {/* AdSense Placeholder - Top Ad */}
-      <div className="bg-gray-100 py-3 text-center">
-        <div className="max-w-728px mx-auto">
-          <p className="text-xs text-gray-500 mb-1">Advertisement</p>
-          <div className="bg-white h-[90px] flex items-center justify-center border border-gray-200 rounded">
-            <span className="text-gray-400 text-sm">Google AdSense - 728x90</span>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -59,11 +49,6 @@ const Footer = () => {
               <li>
                 <Link to="/preview" className="hover:text-[#1783e0] transition-colors">
                   Preview CV
-                </Link>
-              </li>
-              <li>
-                <Link to="/ai-improvement" className="hover:text-[#1783e0] transition-colors">
-                  AI Improvement
                 </Link>
               </li>
             </ul>
@@ -132,16 +117,6 @@ const Footer = () => {
           <p className="text-sm text-gray-400">
             Made with ❤️ for job seekers worldwide
           </p>
-        </div>
-      </div>
-
-      {/* AdSense Placeholder - Bottom Ad */}
-      <div className="bg-gray-100 py-3 text-center">
-        <div className="max-w-728px mx-auto">
-          <p className="text-xs text-gray-500 mb-1">Advertisement</p>
-          <div className="bg-white h-[90px] flex items-center justify-center border border-gray-200 rounded">
-            <span className="text-gray-400 text-sm">Google AdSense - 728x90</span>
-          </div>
         </div>
       </div>
     </footer>
