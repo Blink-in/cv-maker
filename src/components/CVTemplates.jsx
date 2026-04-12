@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Globe, Linkedin, Briefcase, GraduationCap, Award, 
 
 // Base CV Data types
 const CVTemplateWrapper = ({ children, color = '#1783e0' }) => (
-  <div className="bg-white shadow-xl rounded-xl overflow-hidden w-full" style={{ width: '210mm', minHeight: '297mm' }}>
+  <div className="bg-white shadow-sm rounded-lg overflow-hidden w-full h-full">
     {children}
   </div>
 );
