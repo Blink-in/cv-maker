@@ -1,27 +1,4 @@
 import React, { useState } from 'react';
-import { Sparkles, Copy, Check, RefreshCw, ArrowLeft, Mail, User, Briefcase, Building } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import useCVStore from '../store/cvStore';
-
-const CoverLetterWriter = () => {
-  const navigate = useNavigate();
-  const { personalInfo } = useCVStore();
-  const [formData, setFormData] = useState({
-    recipientName: '',
-    companyName: '',
-    jobTitle: '',
-    yourName: personalInfo.fullName || '',
-    yourTitle: personalInfo.professionalTitle || '',
-  });
-  const [coverLetter, setCoverLetter] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-import React, { useState } from 'react';
 import { Sparkles, Copy, Check, RefreshCw, ArrowLeft, Mail, User, Briefcase, Building, Code, FolderGit2, Award } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useCVStore from '../store/cvStore';
@@ -231,39 +208,39 @@ ${name}`;
               />
             </div>
             
-             <div className="md:col-span-2">
-               <label className="block text-sm font-medium text-gray-700 mb-2">
-                 <User className="w-4 h-4 inline mr-1" />
-                 Recipient Name (Optional)
-               </label>
-               <input
-                 type="text"
-                 name="recipientName"
-                 value={formData.recipientName}
-                 onChange={handleChange}
-                 placeholder="John Smith"
-                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1783e0] focus:border-transparent outline-none transition-all"
-               />
-             </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                <User className="w-4 h-4 inline mr-1" />
+                Recipient Name (Optional)
+              </label>
+              <input
+                type="text"
+                name="recipientName"
+                value={formData.recipientName}
+                onChange={handleChange}
+                placeholder="John Smith"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1783e0] focus:border-transparent outline-none transition-all"
+              />
+            </div>
 
-             <div>
-               <label className="block text-sm font-medium text-gray-700 mb-2">
-                 <Award className="w-4 h-4 inline mr-1" />
-                 Experience Level
-               </label>
-               <select
-                 name="experienceLevel"
-                 value={formData.experienceLevel}
-                 onChange={handleChange}
-                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1783e0] focus:border-transparent outline-none transition-all bg-white"
-               >
-                 <option value="beginner">Entry Level / Beginner</option>
-                 <option value="junior">Junior / 1-2 Years</option>
-                 <option value="mid">Mid Level / 3-5 Years</option>
-                 <option value="senior">Senior / 5+ Years</option>
-               </select>
-             </div>
-           </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Award className="w-4 h-4 inline mr-1" />
+                Experience Level
+              </label>
+              <select
+                name="experienceLevel"
+                value={formData.experienceLevel}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1783e0] focus:border-transparent outline-none transition-all bg-white"
+              >
+                <option value="beginner">Entry Level / Beginner</option>
+                <option value="junior">Junior / 1-2 Years</option>
+                <option value="mid">Mid Level / 3-5 Years</option>
+                <option value="senior">Senior / 5+ Years</option>
+              </select>
+            </div>
+          </div>
           
           <div className="flex justify-between items-center mt-6">
             <p className="text-sm text-gray-500">
