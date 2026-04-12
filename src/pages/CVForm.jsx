@@ -14,18 +14,16 @@ import CertificationsForm from '../components/forms/CertificationsForm';
 import ProjectsForm from '../components/forms/ProjectsForm';
 
 const templates = [
-  { id: 'modern', name: 'Modern Professional', color: '#1783e0' },
-  { id: 'classic', name: 'Classic Traditional', color: '#374151' },
-  { id: 'executive', name: 'Executive Elite', color: '#1f2937' },
-  { id: 'creative', name: 'Creative Designer', color: '#8b5cf6' },
-  { id: 'minimal', name: 'Minimalist', color: '#10b981' },
-  { id: 'professional', name: 'Corporate Professional', color: '#2563eb' },
-  { id: 'elegant', name: 'Elegant Sophisticated', color: '#7c3aed' },
-  { id: 'timeless', name: 'Timeless Classic', color: '#4b5563' },
-  { id: 'bold', name: 'Bold Impact', color: '#dc2626' },
-  { id: 'simple', name: 'Simple Clean', color: '#6b7280' },
-  { id: 'premium', name: 'Premium Executive', color: '#92400e' },
-  { id: 'functional', name: 'Functional Skills', color: '#7c3aed' },
+  { id: 'classic', name: 'Classic Executive', color: '#000000' },
+  { id: 'modern', name: 'Modern Professional', color: '#000000' },
+  { id: 'minimal', name: 'Minimalist', color: '#000000' },
+  { id: 'creative', name: 'Creative Visionary', color: '#000000' },
+  { id: 'executive', name: 'Executive Suite', color: '#000000' },
+  { id: 'technical', name: 'Technical Expert', color: '#000000' },
+  { id: 'academic', name: 'Academic Scholar', color: '#000000' },
+  { id: 'hybrid', name: 'Hybrid Pro', color: '#000000' },
+  { id: 'professional', name: 'Professional Edge', color: '#000000' },
+  { id: 'timeless', name: 'Timeless Classic', color: '#000000' },
 ];
 
 const steps = [

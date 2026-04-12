@@ -23,39 +23,34 @@ const Preview = () => {
   } = useCVStore();
 
   const templateColors = {
-    modern: '#1783e0',
-    classic: '#374151',
-    executive: '#1f2937',
-    creative: '#8b5cf6',
-    minimal: '#10b981',
-    professional: '#2563eb',
-    elegant: '#7c3aed',
-    timeless: '#4b5563',
-    bold: '#dc2626',
-    simple: '#6b7280',
-    premium: '#92400e',
-    functional: '#7c3aed',
+    classic: '#000000',
+    modern: '#000000',
+    minimal: '#000000',
+    creative: '#000000',
+    executive: '#000000',
+    technical: '#000000',
+    academic: '#000000',
+    hybrid: '#000000',
+    professional: '#000000',
+    timeless: '#000000',
   };
 
-  const color = templateColors[selectedTemplate?.id] || '#1783e0';
+  const color = '#000000';
 
-  // Section order definitions for each template
   const sectionOrders = {
-    modern: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
     classic: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    executive: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    creative: ['summary', 'skills', 'projects', 'experience', 'education', 'certifications'],
+    modern: ['summary', 'experience', 'skills', 'education', 'projects', 'certifications'],
     minimal: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
-    professional: ['summary', 'skills', 'experience', 'education', 'certifications', 'projects'],
-    elegant: ['summary', 'experience', 'skills', 'education', 'projects', 'certifications'],
+    creative: ['summary', 'skills', 'experience', 'education', 'projects', 'certifications'],
+    executive: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
+    technical: ['summary', 'skills', 'experience', 'education', 'projects', 'certifications'],
+    academic: ['summary', 'education', 'experience', 'skills', 'projects', 'certifications'],
+    hybrid: ['summary', 'skills', 'experience', 'education', 'certifications', 'projects'],
+    professional: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
     timeless: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    bold: ['summary', 'experience', 'projects', 'skills', 'education', 'certifications'],
-    simple: ['summary', 'experience', 'education', 'skills', 'projects', 'certifications'],
-    premium: ['summary', 'experience', 'education', 'skills', 'certifications', 'projects'],
-    functional: ['skills', 'summary', 'experience', 'education', 'certifications', 'projects'],
   };
 
-  const sectionOrder = sectionOrders[selectedTemplate?.id] || sectionOrders.modern;
+  const sectionOrder = sectionOrders[selectedTemplate?.id] || sectionOrders.classic;
 
   const handleDownloadPDF = async () => {
     const element = cvRef.current;
@@ -162,24 +157,24 @@ ${education.length > 0 ? `
 ${education.map(edu => `
 <div style="margin-bottom: 10pt;">
 <h3>${escapeHtml(edu.degree) || ''} ${edu.fieldOfStudy ? 'in ' + escapeHtml(edu.fieldOfStudy) : ''}</h3>
-<p><strong>${escapeHtml(edu.institution) || 'Institution'}</strong> | ${escapeHtml(edu.startDate) || ''} - ${edu.currentlyStudying ? 'Present' : escapeHtml(edu.endDate) || ''}</p>
+<p><strong>${escapeHtml(edu.institution) || 'Institution'}</strong> | ${escapeHtml(edu.startDate) || ''} ${edu.currentlyStudying ? '- Present' : edu.endDate ? '- ' + escapeHtml(edu.endDate) : ''}</p>
 ${edu.gpa ? `<p>GPA: ${escapeHtml(edu.gpa)}</p>` : ''}
 </div>
 `).join('')}
 ` : ''}
 
-${skills.technical.length > 0 || skills.soft.length > 0 || skills.languages.length > 0 ? `
+${(skills.technical.length > 0 || skills.soft.length > 0 || skills.languages.length > 0) ? `
 <h2>Skills</h2>
-${skills.technical.length > 0 ? `<p><strong>Technical:</strong> ${skills.technical.map(s => escapeHtml(s.name)).join(', ')}</p>` : ''}
-${skills.soft.length > 0 ? `<p><strong>Soft Skills:</strong> ${skills.soft.map(s => escapeHtml(s.name)).join(', ')}</p>` : ''}
-${skills.languages.length > 0 ? `<p><strong>Languages:</strong> ${skills.languages.map(l => escapeHtml(l.name)).join(', ')}</p>` : ''}
+${skills.technical.length > 0 ? `<p><strong>Technical:</strong> ${skills.technical.map(s => escapeHtml(s.name || s)).join(', ')}</p>` : ''}
+${skills.soft.length > 0 ? `<p><strong>Soft Skills:</strong> ${skills.soft.map(s => escapeHtml(s.name || s)).join(', ')}</p>` : ''}
+${skills.languages.length > 0 ? `<p><strong>Languages:</strong> ${skills.languages.map(l => escapeHtml(l.name || l)).join(', ')}</p>` : ''}
 ` : ''}
 
 ${projects.length > 0 ? `
 <h2>Projects</h2>
 ${projects.map(p => `
 <div style="margin-bottom: 10pt;">
-<h3>${escapeHtml(p.name)}</h3>
+<h3>${escapeHtml(p.name) || 'Project'}</h3>
 ${p.description ? `<p>${escapeHtml(p.description)}</p>` : ''}
 ${p.technologies?.length > 0 ? `<p><em>Technologies: ${p.technologies.join(', ')}</em></p>` : ''}
 </div>
@@ -213,7 +208,41 @@ ${certifications.map(c => `
     window.print();
   };
 
-  // Section renderers
+  const renderContactInfo = () => (
+    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+      {personalInfo.email && (
+        <div className="flex items-center gap-1">
+          <Mail className="w-4 h-4" style={{ color }} />
+          <span>{personalInfo.email}</span>
+        </div>
+      )}
+      {personalInfo.phone && (
+        <div className="flex items-center gap-1">
+          <Phone className="w-4 h-4" style={{ color }} />
+          <span>{personalInfo.phone}</span>
+        </div>
+      )}
+      {personalInfo.address && (
+        <div className="flex items-center gap-1">
+          <MapPin className="w-4 h-4" style={{ color }} />
+          <span>{personalInfo.address}</span>
+        </div>
+      )}
+      {personalInfo.linkedIn && (
+        <div className="flex items-center gap-1">
+          <Linkedin className="w-4 h-4" style={{ color }} />
+          <span>{personalInfo.linkedIn.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '').replace(/\/$/, '')}</span>
+        </div>
+      )}
+      {personalInfo.portfolio && (
+        <div className="flex items-center gap-1">
+          <Globe className="w-4 h-4" style={{ color }} />
+          <span>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span>
+        </div>
+      )}
+    </div>
+  );
+
   const renderSummary = () => {
     if (!personalInfo.summary) return null;
     return (
@@ -224,64 +253,33 @@ ${certifications.map(c => `
   };
 
   const renderSkills = (templateId) => {
-    if (skills.technical.length === 0 && skills.soft.length === 0 && skills.languages.length === 0) return null;
-    
-    if (templateId === 'functional') {
-      return (
-        <div className="mb-6">
-          <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Core Competencies</h2>
-          <div className="flex flex-wrap gap-2">
-            {skills.technical.map((s, i) => (
-              <span key={i} className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: `${color}15`, color }}>
-                {s.name}
-              </span>
-            ))}
-            {skills.soft.map((s, i) => (
-              <span key={i} className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: `${color}10`, color: '#666' }}>
-                {s.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    
+    const hasSkills = skills.technical.length > 0 || skills.soft.length > 0 || skills.languages.length > 0;
+    if (!hasSkills) return null;
+
     return (
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Skills</h2>
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">Skills</h2>
         {skills.technical.length > 0 && (
-          <div className="mb-4">
+          <div className="mb-3">
             <h3 className="font-semibold text-gray-700 mb-2">Technical Skills</h3>
-            <div className="flex flex-wrap gap-2">
-              {skills.technical.map((s, i) => (
-                <span key={i} className="px-3 py-1 rounded-full text-sm" style={{ backgroundColor: `${color}15`, color }}>
-                  {s.name}
-                </span>
-              ))}
+            <div className="text-gray-700 text-sm">
+              {skills.technical.map((s, i) => <span key={i}>{(s.name || s)}{i < skills.technical.length - 1 ? ', ' : ''}</span>)}
             </div>
           </div>
         )}
         {skills.soft.length > 0 && (
-          <div className="mb-4">
+          <div className="mb-3">
             <h3 className="font-semibold text-gray-700 mb-2">Soft Skills</h3>
-            <div className="flex flex-wrap gap-2">
-              {skills.soft.map((s, i) => (
-                <span key={i} className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
-                  {s.name}
-                </span>
-              ))}
+            <div className="text-gray-700 text-sm">
+              {skills.soft.map((s, i) => <span key={i}>{(s.name || s)}{i < skills.soft.length - 1 ? ', ' : ''}</span>)}
             </div>
           </div>
         )}
         {skills.languages.length > 0 && (
           <div>
             <h3 className="font-semibold text-gray-700 mb-2">Languages</h3>
-            <div className="flex flex-wrap gap-2">
-              {skills.languages.map((l, i) => (
-                <span key={i} className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
-                  {l.name}
-                </span>
-              ))}
+            <div className="text-gray-700 text-sm">
+              {skills.languages.map((l, i) => <span key={i}>{(l.name || l)}{i < skills.languages.length - 1 ? ', ' : ''}</span>)}
             </div>
           </div>
         )}
@@ -293,14 +291,16 @@ ${certifications.map(c => `
     if (experience.length === 0) return null;
     return (
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Work Experience</h2>
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">
+          Work Experience
+        </h2>
         <div className="space-y-4">
           {experience.map((e, i) => (
             <div key={i} className="relative">
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="font-semibold text-lg">{e.position}</h3>
-                  <div className="text-gray-600">{e.company}</div>
+                  <div className="text-gray-600">{e.company}{e.location && `, ${e.location}`}</div>
                 </div>
                 <div className="text-sm text-gray-500 whitespace-nowrap">
                   {e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}
@@ -325,7 +325,9 @@ ${certifications.map(c => `
     if (education.length === 0) return null;
     return (
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Education</h2>
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">
+          Education
+        </h2>
         <div className="space-y-4">
           {education.map((e, i) => (
             <div key={i}>
@@ -350,7 +352,9 @@ ${certifications.map(c => `
     if (projects.length === 0) return null;
     return (
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Projects</h2>
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">
+          Projects
+        </h2>
         <div className="space-y-4">
           {projects.map((p, i) => (
             <div key={i}>
@@ -359,7 +363,7 @@ ${certifications.map(c => `
               {p.technologies?.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2">
                   {p.technologies.map((t, ti) => (
-                    <span key={ti} className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: `${color}15`, color }}>
+                    <span key={ti} className="text-xs px-2 py-0.5 rounded bg-gray-100">
                       {t}
                     </span>
                   ))}
@@ -376,13 +380,15 @@ ${certifications.map(c => `
     if (certifications.length === 0) return null;
     return (
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 pb-2" style={{ color, borderBottom: `2px solid ${color}` }}>Certifications</h2>
+        <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">
+          Certifications
+        </h2>
         <div className="space-y-3">
           {certifications.map((c, i) => (
-            <div key={i} className="bg-gray-50 p-3 rounded-lg">
+            <div key={i} className="flex justify-between items-start">
               <div className="font-medium">{c.name}</div>
               <div className="text-sm text-gray-500">
-                {c.issuer} {c.date && `| ${c.date}`}
+                {c.issuer}{c.date && ` | ${c.date}`}
               </div>
             </div>
           ))}
@@ -391,334 +397,302 @@ ${certifications.map(c => `
     );
   };
 
-  const renderContactInfo = () => (
-    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-      {personalInfo.email && (
-        <div className="flex items-center gap-1">
-          <Mail className="w-4 h-4" style={{ color }} />
-          <span>{personalInfo.email}</span>
-        </div>
-      )}
-      {personalInfo.phone && (
-        <div className="flex items-center gap-1">
-          <Phone className="w-4 h-4" style={{ color }} />
-          <span>{personalInfo.phone}</span>
-        </div>
-      )}
-      {personalInfo.address && (
-        <div className="flex items-center gap-1">
-          <MapPin className="w-4 h-4" style={{ color }} />
-          <span>{personalInfo.address}</span>
-        </div>
-      )}
-      {personalInfo.linkedIn && (
-        <div className="flex items-center gap-1">
-          <Linkedin className="w-4 h-4" style={{ color }} />
-          <span>{personalInfo.linkedIn.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '')}</span>
-        </div>
-      )}
-      {personalInfo.portfolio && (
-        <div className="flex items-center gap-1">
-          <Globe className="w-4 h-4" style={{ color }} />
-          <span>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</span>
-        </div>
-      )}
-    </div>
-  );
-
   // Template-specific renderers
-  const renderModernTemplate = () => (
-    <>
-      <div className="border-b-4 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-bold mb-1" style={{ color }}>{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg font-medium mb-3" style={{ color }}>{personalInfo.professionalTitle}</p>}
-        {personalInfo.summary && <p className="text-gray-600 mb-4 text-sm leading-relaxed">{personalInfo.summary}</p>}
-        {renderContactInfo()}
-      </div>
-      <div className="flex gap-8">
-        <div className="w-1/3">
-          {skills.technical.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-3 pb-2 border-b" style={{ color, borderColor: color }}>Skills</h2><div className="space-y-2">{skills.technical.map((s, i) => <div key={i} className="flex items-center gap-2"><CheckCircle className="w-3 h-3" style={{ color }} /><span className="text-sm">{s.name}</span></div>)}</div></div>}
-          {skills.soft.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-3 pb-2 border-b" style={{ color, borderColor: color }}>Soft Skills</h2><div className="flex flex-wrap gap-1">{skills.soft.map((s, i) => <span key={i} className="text-xs px-2 py-1 rounded mr-1 mb-1" style={{ backgroundColor: `${color}20`, color }}>{s.name}</span>)}</div></div>}
-          {skills.languages.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-3 pb-2 border-b" style={{ color, borderColor: color }}>Languages</h2><div className="space-y-1">{skills.languages.map((l, i) => <div key={i} className="text-sm"><span className="font-medium">{l.name}</span></div>)}</div></div>}
-          {certifications.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-3 pb-2 border-b" style={{ color, borderColor: color }}>Certifications</h2><div className="space-y-3">{certifications.map((c, i) => <div key={i}><div className="font-medium text-sm">{c.name}</div><div className="text-xs text-gray-500">{c.issuer}</div></div>)}</div></div>}
-        </div>
-        <div className="w-2/3">
-          {experience.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-4 pb-2 border-b" style={{ color, borderColor: color }}>Experience</h2><div className="space-y-4">{experience.map((e, i) => <div key={i}><div className="flex justify-between items-start mb-1"><div><h3 className="font-semibold">{e.position}</h3><div className="text-sm text-gray-600">{e.company}</div></div><div className="text-xs text-gray-500 text-right">{e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div></div>{e.description && <p className="text-sm text-gray-600 mb-1">{e.description}</p>}{e.achievements?.length > 0 && <ul className="text-sm text-gray-600 list-disc list-inside">{e.achievements.filter(a => a).map((a, ai) => <li key={ai}>{a}</li>)}</ul>}</div>)}</div></div>}
-          {education.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-4 pb-2 border-b" style={{ color, borderColor: color }}>Education</h2><div className="space-y-4">{education.map((e, i) => <div key={i}><div className="flex justify-between items-start mb-1"><div><h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ' in ' + e.fieldOfStudy : ''}</h3><div className="text-sm text-gray-600">{e.institution}</div></div><div className="text-xs text-gray-500 text-right">{e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div></div>{e.gpa && <div className="text-sm text-gray-500">GPA: {e.gpa}</div>}</div>)}</div></div>}
-          {projects.length > 0 && <div className="mb-6"><h2 className="text-lg font-bold mb-4 pb-2 border-b" style={{ color, borderColor: color }}>Projects</h2><div className="space-y-4">{projects.map((p, i) => <div key={i}><h3 className="font-semibold">{p.name}</h3>{p.description && <p className="text-sm text-gray-600 mt-1">{p.description}</p>}{p.technologies?.length > 0 && <div className="flex flex-wrap gap-1 mt-2">{p.technologies.map((t, ti) => <span key={ti} className="text-xs px-2 py-0.5 rounded" style={{ backgroundColor: `${color}15`, color }}>{t}</span>)}</div>}</div>)}</div></div>}
-        </div>
-      </div>
-    </>
-  );
-
   const renderClassicTemplate = () => (
     <>
-      <div className="text-center border-b-2 border-gray-800 pb-6 mb-6">
-        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        <div className="text-gray-600 mb-4">{personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}{personalInfo.address && ` | ${personalInfo.address}`}</div>
-        {personalInfo.summary && <p className="text-gray-700 text-sm italic">{personalInfo.summary}</p>}
+      <div className="text-center border-b border-black pb-8 mb-8">
+        <h1 className="text-4xl font-serif font-bold text-black mb-2 uppercase tracking-wider">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-4">{personalInfo.professionalTitle}</p>}
+        <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-4">
+          {personalInfo.address && <span>{personalInfo.address}</span>}
+          {personalInfo.phone && <span>|</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+          {personalInfo.email && <span>|</span>}
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.linkedIn && <span>|</span>}
+          {personalInfo.linkedIn && <span>LinkedIn</span>}
+        </div>
       </div>
+      {personalInfo.summary && (
+        <div className="mb-8">
+          <p className="text-gray-700 italic text-center max-w-3xl mx-auto">{personalInfo.summary}</p>
+        </div>
+      )}
       {renderExperience()}
       {renderEducation()}
       {renderSkills('classic')}
       {renderCertifications()}
+      {renderProjects()}
     </>
   );
 
-  const renderExecutiveTemplate = () => (
+  const renderModernTemplate = () => (
     <>
-      <div className="rounded-lg p-6 mb-6 text-white" style={{ backgroundColor: '#1f2937' }}>
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center"><span className="text-2xl font-serif font-bold">{(personalInfo.fullName || 'YN').split(' ').map(n => n[0]).join('')}</span></div>
-          <div>
-            <h1 className="text-3xl font-serif font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-            <p className="text-gray-300 text-sm uppercase tracking-wider">{personalInfo.professionalTitle || 'Professional Profile'}</p>
-          </div>
+      <div className="grid grid-cols-3 gap-8 mb-8">
+        <div className="col-span-2">
+          <h1 className="text-5xl font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+          {personalInfo.professionalTitle && <p className="text-xl font-light text-gray-600">{personalInfo.professionalTitle}</p>}
         </div>
-        {personalInfo.summary && <p className="text-gray-300 mt-4 text-sm">{personalInfo.summary}</p>}
+        <div className="text-right text-sm text-gray-600 border-l border-gray-200 pl-6">
+          {personalInfo.email && <div className="mb-1">{personalInfo.email}</div>}
+          {personalInfo.phone && <div className="mb-1">{personalInfo.phone}</div>}
+          {personalInfo.address && <div className="mb-1">{personalInfo.address}</div>}
+          {personalInfo.linkedIn && <div className="mb-1">{personalInfo.linkedIn.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '')}</div>}
+        </div>
       </div>
-      <div className="flex gap-6">
-        <div className="w-1/3 bg-gray-50 p-4 rounded-lg">
-          <h2 className="font-bold text-gray-800 mb-4 pb-2 border-b border-gray-300">Contact</h2>
-          {personalInfo.email && <div className="mb-3 text-sm"><span className="font-medium">Email:</span> {personalInfo.email}</div>}
-          {personalInfo.phone && <div className="mb-3 text-sm"><span className="font-medium">Phone:</span> {personalInfo.phone}</div>}
-          {personalInfo.address && <div className="mb-3 text-sm"><span className="font-medium">Location:</span> {personalInfo.address}</div>}
-          {skills.technical.length > 0 && <><h2 className="font-bold text-gray-800 mt-6 mb-4 pb-2 border-b border-gray-300">Technical Skills</h2><div className="space-y-2">{skills.technical.map((s, i) => <div key={i} className="text-sm">{s.name}</div>)}</div></>}
-          {skills.soft.length > 0 && <><h2 className="font-bold text-gray-800 mt-6 mb-4 pb-2 border-b border-gray-300">Soft Skills</h2><div className="flex flex-wrap gap-1">{skills.soft.map((s, i) => <span key={i} className="text-xs bg-gray-200 px-2 py-1 rounded">{s.name}</span>)}</div></>}
+      {personalInfo.summary && (
+        <div className="mb-8 bg-gray-50 p-6 border-l-4 border-black">
+          <p className="text-gray-700">{personalInfo.summary}</p>
         </div>
-        <div className="w-2/3">
-          {experience.length > 0 && <><h2 className="text-xl font-bold text-gray-800 mb-4">Work Experience</h2><div className="space-y-6 mb-6">{experience.map((e, i) => <div key={i} className="border-l-4 border-gray-800 pl-4"><h3 className="font-semibold text-lg">{e.position}</h3><div className="text-gray-600">{e.company} | {e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div>{e.description && <p className="text-sm text-gray-600 mt-2">{e.description}</p>}{e.achievements?.length > 0 && <ul className="text-sm text-gray-600 mt-2 list-disc list-inside">{e.achievements.filter(a => a).map((a, ai) => <li key={ai}>{a}</li>)}</ul>}</div>)}</div></>}
-          {education.length > 0 && <><h2 className="text-xl font-bold text-gray-800 mb-4">Education</h2><div className="space-y-4 mb-6">{education.map((e, i) => <div key={i} className="border-l-4 border-gray-800 pl-4"><h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ' in ' + e.fieldOfStudy : ''}</h3><div className="text-gray-600">{e.institution} | {e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}</div>{e.gpa && <div className="text-sm text-gray-500">GPA: {e.gpa}</div>}</div>)}</div></>}
+      )}
+      {renderExperience()}
+      {renderSkills('modern')}
+      {renderEducation()}
+      {renderProjects()}
+      {renderCertifications()}
+    </>
+  );
+
+  const renderMinimalTemplate = () => (
+    <>
+      <div className="mb-10">
+        <h1 className="text-6xl font-extrabold text-black mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-xl text-gray-500 font-light">{personalInfo.professionalTitle}</p>}
+        <div className="mt-4 text-sm text-gray-500">
+          {personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}
         </div>
+      </div>
+      {personalInfo.summary && (
+        <div className="mb-8">
+          <p className="text-gray-600">{personalInfo.summary}</p>
+        </div>
+      )}
+      <div className="space-y-10">
+        {renderExperience()}
+        {renderEducation()}
+        {skills.technical.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-lg font-bold uppercase tracking-widest text-black mb-4">Skills</h2>
+            <p className="text-gray-700">{skills.technical.map(s => s.name || s).join(', ')}</p>
+          </div>
+        )}
+        {renderProjects()}
       </div>
     </>
   );
 
   const renderCreativeTemplate = () => (
     <>
-      <div className="rounded-xl p-6 mb-6 text-white" style={{ background: `linear-gradient(135deg, ${color}, ${color}dd)` }}>
-        <h1 className="text-4xl font-bold mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-white/90 mb-2 text-lg font-medium">{personalInfo.professionalTitle}</p>}
-        <p className="text-white/80 mb-4 text-sm">{personalInfo.summary || 'Creative Professional'}</p>
-        <div className="flex flex-wrap gap-4 text-sm text-white/80">
-          {personalInfo.email && <div className="flex items-center gap-1"><Mail className="w-4 h-4" /><span>{personalInfo.email}</span></div>}
-          {personalInfo.phone && <div className="flex items-center gap-1"><Phone className="w-4 h-4" /><span>{personalInfo.phone}</span></div>}
-          {personalInfo.portfolio && <div className="flex items-center gap-1"><Globe className="w-4 h-4" /><span>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</span></div>}
+      <div className="mb-10 border-b-4 border-black pb-6">
+        <h1 className="text-6xl font-black text-black">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-2xl font-light text-gray-800 mt-2">{personalInfo.professionalTitle}</p>}
+      </div>
+      <div className="flex gap-10">
+        <div className="w-1/4 bg-gray-50 p-6">
+          <div className="text-sm text-gray-700 space-y-3">
+            {personalInfo.email && <div>{personalInfo.email}</div>}
+            {personalInfo.phone && <div>{personalInfo.phone}</div>}
+            {personalInfo.address && <div>{personalInfo.address}</div>}
+          </div>
+          {skills.technical.length > 0 && (
+            <div className="mt-8">
+              <h3 className="font-bold uppercase text-sm mb-3">Skills</h3>
+              <div className="space-y-2">
+                {skills.technical.map((s, i) => (
+                  <div key={i} className="text-sm">
+                    <div className="h-1 bg-gray-200 rounded">
+                      <div className="h-1 bg-black rounded" style={{ width: `${60 + Math.random() * 40}%` }}></div>
+                    </div>
+                    <div className="text-xs mt-1">{s.name || s}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="w-3/4">
+          {personalInfo.summary && (
+            <div className="mb-8 text-xl font-light text-gray-700">{personalInfo.summary}</div>
+          )}
+          {renderExperience()}
+          {renderEducation()}
         </div>
       </div>
-      {skills.technical.length > 0 && <div className="mb-6"><h2 className="text-2xl font-bold mb-4" style={{ color }}>Skills & Expertise</h2><div className="flex flex-wrap gap-2">{skills.technical.map((s, i) => <span key={i} className="px-3 py-1 rounded-full text-white" style={{ backgroundColor: color }}>{s.name}</span>)}</div></div>}
-      {experience.length > 0 && <div className="mb-6"><h2 className="text-2xl font-bold mb-4" style={{ color }}>Professional Journey</h2><div className="space-y-6">{experience.map((e, i) => <div key={i} className="bg-gray-50 p-4 rounded-lg"><div className="flex justify-between items-start"><div><h3 className="font-semibold text-lg">{e.position}</h3><div className="text-gray-600">{e.company}</div></div><span className="text-sm text-gray-500">{e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}</span></div>{e.description && <p className="text-sm text-gray-600 mt-2">{e.description}</p>}</div>)}</div></div>}
-      {education.length > 0 && <div className="mb-6"><h2 className="text-2xl font-bold mb-4" style={{ color }}>Academic Background</h2><div className="space-y-4">{education.map((e, i) => <div key={i} className="bg-gray-50 p-4 rounded-lg"><h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ' in ' + e.fieldOfStudy : ''}</h3><div className="text-gray-600">{e.institution}</div></div>)}</div></div>}
-      {projects.length > 0 && <div className="mb-6"><h2 className="text-2xl font-bold mb-4" style={{ color }}>Featured Projects</h2><div className="grid grid-cols-2 gap-4">{projects.map((p, i) => <div key={i} className="bg-gray-50 p-4 rounded-lg"><h3 className="font-semibold">{p.name}</h3>{p.description && <p className="text-sm text-gray-600 mt-1">{p.description}</p>}</div>)}</div></div>}
     </>
   );
 
-  const renderMinimalTemplate = () => (
+  const renderExecutiveTemplate = () => (
     <>
-      <div className="mb-6">
-        <h1 className="text-4xl font-bold text-black mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        <p className="text-gray-500 text-sm mb-4">{personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}{personalInfo.address && ` | ${personalInfo.address}`}</p>
-        {personalInfo.summary && <p className="text-gray-700 text-sm leading-relaxed border-l-2 border-black pl-4">{personalInfo.summary}</p>}
+      <div className="text-center border-t-4 border-b-4 border-black py-8 mb-8">
+        <h1 className="text-4xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-xl text-gray-700 font-medium">{personalInfo.professionalTitle}</p>}
+        <div className="mt-4 text-sm text-gray-600 flex justify-center gap-6">
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+        </div>
       </div>
-      {experience.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold text-black mb-4">Experience</h2><div className="space-y-4">{experience.map((e, i) => <div key={i}><div className="flex justify-between"><h3 className="font-semibold">{e.position}</h3><span className="text-sm text-gray-500">{e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}</span></div><div className="text-gray-600">{e.company}</div>{e.description && <p className="text-sm text-gray-600 mt-1">{e.description}</p>}</div>)}</div></div>}
-      {education.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold text-black mb-4">Education</h2><div className="space-y-4">{education.map((e, i) => <div key={i}><div className="flex justify-between"><h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ' in ' + e.fieldOfStudy : ''}</h3><span className="text-sm text-gray-500">{e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}</span></div><div className="text-gray-600">{e.institution}</div></div>)}</div></div>}
-      {skills.technical.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold text-black mb-4">Skills</h2><p className="text-gray-700">{skills.technical.map(s => s.name).join(', ')}</p></div>}
-      {projects.length > 0 && <div className="mb-6"><h2 className="text-xl font-bold text-black mb-4">Projects</h2><div className="space-y-3">{projects.map((p, i) => <div key={i}><h3 className="font-semibold">{p.name}</h3>{p.description && <p className="text-sm text-gray-600">{p.description}</p>}</div>)}</div></div>}
+      {personalInfo.summary && (
+        <div className="mb-8">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-black mb-3 border-b border-gray-300 pb-1">Executive Summary</h2>
+          <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
+        </div>
+      )}
+      {renderExperience()}
+      {renderEducation()}
+      {renderSkills('executive')}
+      {renderCertifications()}
+    </>
+  );
+
+  const renderTechnicalTemplate = () => (
+    <>
+      <div className="flex justify-between items-start mb-8">
+        <div>
+          <h1 className="text-4xl font-mono font-bold text-black">{personalInfo.fullName || 'Your Name'}</h1>
+          {personalInfo.professionalTitle && <p className="text-xl font-mono text-gray-600">{personalInfo.professionalTitle}</p>}
+        </div>
+        <div className="text-right text-sm font-mono text-gray-600">
+          {personalInfo.email && <div>{personalInfo.email}</div>}
+          {personalInfo.phone && <div>{personalInfo.phone}</div>}
+          {personalInfo.portfolio && <div>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</div>}
+        </div>
+      </div>
+      {skills.technical.length > 0 && (
+        <div className="mb-8">
+          <h2 className="font-mono text-sm uppercase tracking-wider text-black mb-4">Technical Skills</h2>
+          <div className="grid grid-cols-3 gap-3">
+            {skills.technical.map((s, i) => (
+              <div key={i} className="bg-gray-100 p-2 text-center text-sm font-mono">{s.name || s}</div>
+            ))}
+          </div>
+        </div>
+      )}
+      {personalInfo.summary && (
+        <div className="mb-8 font-mono text-gray-600 border-l-2 border-black pl-4">
+          {personalInfo.summary}
+        </div>
+      )}
+      {renderExperience()}
+      {renderProjects()}
+      {renderEducation()}
+    </>
+  );
+
+  const renderAcademicTemplate = () => (
+    <>
+      <div className="text-center mb-10 border-b-2 border-black pb-6">
+        <h1 className="text-4xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-lg text-gray-700 font-medium">{personalInfo.professionalTitle}</p>}
+        <div className="mt-3 text-sm text-gray-600">
+          {personalInfo.email} | {personalInfo.phone}
+        </div>
+      </div>
+      {renderEducation()}
+      {renderExperience()}
+      {skills.technical.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-lg font-serif font-bold uppercase tracking-wider text-black mb-4 border-b border-gray-200 pb-2">Technical Skills</h2>
+          <div className="text-gray-700">{skills.technical.map(s => s.name || s).join(' • ')}</div>
+        </div>
+      )}
+      {renderProjects()}
+      {renderCertifications()}
+    </>
+  );
+
+  const renderHybridTemplate = () => (
+    <>
+      <div className="grid grid-cols-12 gap-6 mb-8">
+        <div className="col-span-8">
+          <h1 className="text-5xl font-bold text-black">{personalInfo.fullName || 'Your Name'}</h1>
+          {personalInfo.professionalTitle && <p className="text-xl text-gray-600 mt-1">{personalInfo.professionalTitle}</p>}
+        </div>
+        <div className="col-span-4 bg-black text-white p-4 text-sm">
+          {personalInfo.email && <div className="mb-1">{personalInfo.email}</div>}
+          {personalInfo.phone && <div className="mb-1">{personalInfo.phone}</div>}
+          {personalInfo.address && <div>{personalInfo.address}</div>}
+        </div>
+      </div>
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-4">
+          {renderSkills('hybrid')}
+          {renderCertifications()}
+        </div>
+        <div className="col-span-8">
+          {personalInfo.summary && (
+            <div className="mb-8 text-gray-700">{personalInfo.summary}</div>
+          )}
+          {renderExperience()}
+          {renderEducation()}
+          {renderProjects()}
+        </div>
+      </div>
     </>
   );
 
   const renderProfessionalTemplate = () => (
     <>
-      <div className="rounded-lg p-6 mb-6 text-white flex items-center justify-between" style={{ backgroundColor: color }}>
-        <div>
-          <h1 className="text-3xl font-bold">{personalInfo.fullName || 'Your Name'}</h1>
-          {personalInfo.professionalTitle && <p className="text-white/80">{personalInfo.professionalTitle}</p>}
-        </div>
-        <div className="text-right text-sm">
-          {personalInfo.email && <div>{personalInfo.email}</div>}
-          {personalInfo.phone && <div>{personalInfo.phone}</div>}
-          {personalInfo.address && <div>{personalInfo.address}</div>}
+      <div className="border border-gray-300 p-8 mb-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+          {personalInfo.professionalTitle && <p className="text-lg text-gray-700">{personalInfo.professionalTitle}</p>}
+          <div className="mt-4 flex justify-center gap-4 text-sm text-gray-600">
+            {personalInfo.email && <span>{personalInfo.email}</span>}
+            {personalInfo.phone && <span>|</span>}
+            {personalInfo.phone && <span>{personalInfo.phone}</span>}
+            {personalInfo.linkedIn && <span>|</span>}
+            {personalInfo.linkedIn && <span>LinkedIn</span>}
+          </div>
         </div>
       </div>
       {personalInfo.summary && (
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h2 className="text-lg font-bold mb-2" style={{ color }}>Professional Summary</h2>
+        <div className="mb-8 p-6 bg-gray-50">
           <p className="text-gray-700">{personalInfo.summary}</p>
         </div>
       )}
+      {renderExperience()}
+      {renderEducation()}
       {renderSkills('professional')}
-      {renderExperience()}
-      {renderEducation()}
-      {renderCertifications()}
-    </>
-  );
-
-  const renderElegantTemplate = () => (
-    <>
-      <div className="text-center border-b-2 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        {personalInfo.summary && (
-          <div className="mt-4">
-            <p className="text-gray-600 italic">"{personalInfo.summary}"</p>
-          </div>
-        )}
-        <div className="flex justify-center gap-4 mt-4 text-sm text-gray-500">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.phone && <span>{personalInfo.phone}</span>}
-          {personalInfo.address && <span>{personalInfo.address}</span>}
-        </div>
-      </div>
-      {renderExperience()}
-      {renderSkills('elegant')}
-      {renderEducation()}
       {renderProjects()}
     </>
   );
 
   const renderTimelessTemplate = () => (
     <>
-      <div className="border-b-4 border-gray-600 pb-6 mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        <div className="text-gray-600">{personalInfo.email} | {personalInfo.phone} | {personalInfo.address}</div>
+      <div className="text-center border-b-4 border-gray-800 pb-8 mb-8">
+        <h1 className="text-5xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-xl text-gray-700">{personalInfo.professionalTitle}</p>}
+        <div className="mt-4 text-sm text-gray-600">
+          {personalInfo.address} • {personalInfo.email} • {personalInfo.phone}
+        </div>
       </div>
       {personalInfo.summary && (
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-2">Objective</h2>
-          <p className="text-gray-600">{personalInfo.summary}</p>
+        <div className="mb-8">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-black mb-3 border-b border-gray-400 pb-1">Career Objective</h2>
+          <p className="text-gray-700">{personalInfo.summary}</p>
         </div>
       )}
       {renderExperience()}
       {renderEducation()}
       {renderSkills('timeless')}
-    </>
-  );
-
-  const renderBoldTemplate = () => (
-    <>
-      <div className="rounded-xl p-6 mb-6 text-white font-bold text-center" style={{ backgroundColor: color }}>
-        <h1 className="text-4xl mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-white/90 font-normal mb-1">{personalInfo.professionalTitle}</p>}
-        <p className="text-white/80 font-normal">{personalInfo.summary?.substring(0, 60) || 'Professional Summary'}</p>
-      </div>
-      {renderExperience()}
-      {renderProjects()}
-      {renderSkills('bold')}
-      {renderEducation()}
-    </>
-  );
-
-  const renderSimpleTemplate = () => (
-    <>
-      <div className="mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        <p className="text-gray-500 mb-4">{personalInfo.email} | {personalInfo.phone}</p>
-        {personalInfo.summary && <p className="text-gray-700">{personalInfo.summary}</p>}
-      </div>
-      {renderExperience()}
-      {renderEducation()}
-      {skills.technical.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Skills</h2>
-          <p className="text-gray-700">{skills.technical.map(s => s.name).join(', ')}</p>
-        </div>
-      )}
+      {renderCertifications()}
       {renderProjects()}
     </>
   );
-
-  const renderPremiumTemplate = () => (
-    <>
-      <div className="border-b-2 pb-6 mb-6" style={{ borderColor: color }}>
-        <h1 className="text-4xl font-serif font-bold mb-1" style={{ color: '#92400e' }}>{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-amber-700 font-medium mb-2">{personalInfo.professionalTitle}</p>}
-        <p className="text-amber-700 font-medium">{personalInfo.summary?.substring(0, 50) || 'Professional Title'}</p>
-        <div className="flex gap-4 mt-3 text-sm text-gray-600">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.phone && <span>{personalInfo.phone}</span>}
-          {personalInfo.address && <span>{personalInfo.address}</span>}
-        </div>
-      </div>
-      {renderExperience()}
-      {renderEducation()}
-      {renderSkills('premium')}
-      {renderCertifications()}
-    </>
-  );
-
-  const renderFunctionalTemplate = () => (
-    <>
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-2">{personalInfo.professionalTitle}</p>}
-        <p className="text-gray-600">{personalInfo.email} | {personalInfo.phone}</p>
-      </div>
-      {renderSkills('functional')}
-      {personalInfo.summary && (
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h2 className="text-lg font-bold mb-2" style={{ color }}>Professional Summary</h2>
-          <p className="text-gray-600">{personalInfo.summary}</p>
-        </div>
-      )}
-      {renderExperience()}
-      {renderEducation()}
-      {renderCertifications()}
-    </>
-  );
-
-  // Main render function that uses section order
-  const renderOrderedSections = () => {
-    const templateId = selectedTemplate?.id;
-    
-    // For custom templates, render in order
-    return (
-      <>
-        {sectionOrder.map(section => {
-          switch(section) {
-            case 'summary':
-              return personalInfo.summary ? (
-                <div key="summary" className="mb-6">
-                  <h2 className="text-xl font-bold mb-3" style={{ color }}>Professional Summary</h2>
-                  <p className="text-gray-600">{personalInfo.summary}</p>
-                </div>
-              ) : null;
-            case 'skills':
-              return renderSkills(templateId);
-            case 'experience':
-              return renderExperience();
-            case 'education':
-              return renderEducation();
-            case 'projects':
-              return renderProjects();
-            case 'certifications':
-              return renderCertifications();
-            default:
-              return null;
-          }
-        })}
-      </>
-    );
-  };
 
   const renderTemplate = () => {
     switch (selectedTemplate?.id) {
-      case 'modern': return renderModernTemplate();
       case 'classic': return renderClassicTemplate();
-      case 'executive': return renderExecutiveTemplate();
-      case 'creative': return renderCreativeTemplate();
+      case 'modern': return renderModernTemplate();
       case 'minimal': return renderMinimalTemplate();
+      case 'creative': return renderCreativeTemplate();
+      case 'executive': return renderExecutiveTemplate();
+      case 'technical': return renderTechnicalTemplate();
+      case 'academic': return renderAcademicTemplate();
+      case 'hybrid': return renderHybridTemplate();
       case 'professional': return renderProfessionalTemplate();
-      case 'elegant': return renderElegantTemplate();
       case 'timeless': return renderTimelessTemplate();
-      case 'bold': return renderBoldTemplate();
-      case 'simple': return renderSimpleTemplate();
-      case 'premium': return renderPremiumTemplate();
-      case 'functional': return renderFunctionalTemplate();
-      default: return renderModernTemplate();
+      default: return renderClassicTemplate();
     }
   };
 
@@ -804,12 +778,6 @@ ${certifications.map(c => `
         </div>
       </div>
 
-      {/* AdSense Placeholder */}
-      <div className="bg-gray-100 py-4 text-center print:hidden">
-        <div className="max-w-728px mx-auto">
-          <p className="text-gray-400 text-sm">Advertisement</p>
-        </div>
-      </div>
     </div>
   );
 };

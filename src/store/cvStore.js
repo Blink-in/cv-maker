@@ -6,7 +6,9 @@ const useCVStore = create(
     (set) => ({
       // Selected template
       selectedTemplate: null,
+      selectedColor: '#1783e0',
       setSelectedTemplate: (template) => set({ selectedTemplate: template }),
+      setSelectedColor: (color) => set({ selectedColor: color }),
 
       // Personal Information
       personalInfo: {

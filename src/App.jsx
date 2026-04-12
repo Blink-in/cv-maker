@@ -4,6 +4,7 @@ import TemplateSelection from './pages/TemplateSelection';
 import CVForm from './pages/CVForm';
 import Preview from './pages/Preview';
 import CVAnalysis from './pages/CVAnalysis';
+import CoverLetterWriter from './pages/AIImprovement';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -21,6 +22,7 @@ function App() {
             <Route path="/create-cv" element={<CVForm />} />
             <Route path="/preview" element={<Preview />} />
             <Route path="/analyze" element={<CVAnalysis />} />
+            <Route path="/cover-letter" element={<CoverLetterWriter />} />
           </Routes>
         </main>
         <Footer />

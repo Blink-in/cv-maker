@@ -32,6 +32,13 @@ const Navbar = () => {
               <BarChart3 className="w-4 h-4" />
               Analyze CV
             </Link>
+            <Link 
+              to="/cover-letter" 
+              className="flex items-center gap-1 text-gray-600 hover:text-[#1783e0] transition-colors font-medium"
+            >
+              <FileText className="w-4 h-4" />
+              Cover Letter
+            </Link>
             <button 
               onClick={handleGetStarted}
               className="bg-[#1783e0] text-white px-5 py-2 rounded-lg font-medium hover:bg-[#1567c4] transition-colors shadow-md"
@@ -60,6 +67,14 @@ const Navbar = () => {
               >
                 <BarChart3 className="w-4 h-4" />
                 Analyze CV
+              </Link>
+              <Link 
+                to="/cover-letter" 
+                className="flex items-center gap-2 text-gray-600 hover:text-[#1783e0] transition-colors font-medium py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                <FileText className="w-4 h-4" />
+                Cover Letter
               </Link>
               <button 
                 onClick={() => {
