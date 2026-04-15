@@ -296,15 +296,15 @@ ${certifications.map(c => `
         </h2>
         <div className="space-y-4">
           {experience.map((e, i) => (
-            <div key={i} className="relative">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h3 className="font-semibold text-lg">{e.position}</h3>
-                  <div className="text-gray-600">{e.company}{e.location && `, ${e.location}`}</div>
+            <div key={i}>
+              <div className="mb-2">
+                <h3 className="font-semibold text-lg">{e.position}</h3>
+                <div className="text-gray-600">
+                  {e.company}{e.location && `, ${e.location}`}
                 </div>
-                <div className="text-sm text-gray-500 whitespace-nowrap">
-                  {e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}
-                </div>
+              </div>
+              <div className="text-sm text-gray-500 mb-2">
+                {e.startDate}{e.currentlyWorking ? ' - Present' : e.endDate && ` - ${e.endDate}`}
               </div>
               {e.description && <p className="text-gray-600 mb-2">{e.description}</p>}
               {e.achievements?.filter(a => a).length > 0 && (
@@ -331,14 +331,12 @@ ${certifications.map(c => `
         <div className="space-y-4">
           {education.map((e, i) => (
             <div key={i}>
-              <div className="flex justify-between items-start mb-1">
-                <div>
-                  <h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ` in ${e.fieldOfStudy}` : ''}</h3>
-                  <div className="text-gray-600">{e.institution}</div>
-                </div>
-                <div className="text-sm text-gray-500 whitespace-nowrap">
-                  {e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}
-                </div>
+              <div className="mb-1">
+                <h3 className="font-semibold">{e.degree}{e.fieldOfStudy ? ` in ${e.fieldOfStudy}` : ''}</h3>
+                <div className="text-gray-600">{e.institution}</div>
+              </div>
+              <div className="text-sm text-gray-500 mb-1">
+                {e.startDate}{e.currentlyStudying ? ' - Present' : e.endDate && ` - ${e.endDate}`}
               </div>
               {e.gpa && <div className="text-sm text-gray-500">GPA: {e.gpa}</div>}
             </div>
@@ -403,13 +401,13 @@ ${certifications.map(c => `
       <div className="text-center border-b border-black pb-8 mb-8">
         <h1 className="text-4xl font-serif font-bold text-black mb-2 uppercase tracking-wider">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.professionalTitle && <p className="text-lg font-medium text-gray-700 mb-4">{personalInfo.professionalTitle}</p>}
-        <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-4">
+        <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2">
           {personalInfo.address && <span>{personalInfo.address}</span>}
-          {personalInfo.phone && <span>|</span>}
+          {personalInfo.phone && <span className="text-gray-400">|</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
-          {personalInfo.email && <span>|</span>}
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.linkedIn && <span>|</span>}
+          {personalInfo.email && <span className="text-gray-400">|</span>}
+          {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+          {personalInfo.linkedIn && <span className="text-gray-400">|</span>}
           {personalInfo.linkedIn && <span>LinkedIn</span>}
         </div>
       </div>
@@ -428,16 +426,16 @@ ${certifications.map(c => `
 
   const renderModernTemplate = () => (
     <>
-      <div className="grid grid-cols-3 gap-8 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="col-span-2">
           <h1 className="text-5xl font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
           {personalInfo.professionalTitle && <p className="text-xl font-light text-gray-600">{personalInfo.professionalTitle}</p>}
         </div>
-        <div className="text-right text-sm text-gray-600 border-l border-gray-200 pl-6">
-          {personalInfo.email && <div className="mb-1">{personalInfo.email}</div>}
+        <div className="text-sm text-gray-600">
+          {personalInfo.email && <div className="mb-1 break-all">{personalInfo.email}</div>}
           {personalInfo.phone && <div className="mb-1">{personalInfo.phone}</div>}
           {personalInfo.address && <div className="mb-1">{personalInfo.address}</div>}
-          {personalInfo.linkedIn && <div className="mb-1">{personalInfo.linkedIn.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '')}</div>}
+          {personalInfo.linkedIn && <div className="break-all">{personalInfo.linkedIn.replace(/https?:\/\/(www\.)?linkedin\.com\/in\//, '')}</div>}
         </div>
       </div>
       {personalInfo.summary && (
@@ -458,8 +456,10 @@ ${certifications.map(c => `
       <div className="mb-10">
         <h1 className="text-6xl font-extrabold text-black mb-1">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.professionalTitle && <p className="text-xl text-gray-500 font-light">{personalInfo.professionalTitle}</p>}
-        <div className="mt-4 text-sm text-gray-500">
-          {personalInfo.email}{personalInfo.phone && ` | ${personalInfo.phone}`}
+        <div className="mt-4 text-sm text-gray-500 flex flex-wrap gap-2">
+          {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+          {personalInfo.phone && <span className="text-gray-400">|</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
         </div>
       </div>
       {personalInfo.summary && (
@@ -488,9 +488,9 @@ ${certifications.map(c => `
         {personalInfo.professionalTitle && <p className="text-2xl font-light text-gray-800 mt-2">{personalInfo.professionalTitle}</p>}
       </div>
       <div className="flex gap-10">
-        <div className="w-1/4 bg-gray-50 p-6">
-          <div className="text-sm text-gray-700 space-y-3">
-            {personalInfo.email && <div>{personalInfo.email}</div>}
+        <div className="w-1/4 min-w-[180px] bg-gray-50 p-6">
+          <div className="text-sm text-gray-700 space-y-3 break-all">
+            {personalInfo.email && <div className="break-all">{personalInfo.email}</div>}
             {personalInfo.phone && <div>{personalInfo.phone}</div>}
             {personalInfo.address && <div>{personalInfo.address}</div>}
           </div>
@@ -526,8 +526,9 @@ ${certifications.map(c => `
       <div className="text-center border-t-4 border-b-4 border-black py-8 mb-8">
         <h1 className="text-4xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.professionalTitle && <p className="text-xl text-gray-700 font-medium">{personalInfo.professionalTitle}</p>}
-        <div className="mt-4 text-sm text-gray-600 flex justify-center gap-6">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
+        <div className="mt-4 text-sm text-gray-600 flex flex-wrap justify-center gap-2">
+          {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+          {personalInfo.phone && <span className="text-gray-400">|</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
         </div>
       </div>
@@ -546,21 +547,19 @@ ${certifications.map(c => `
 
   const renderTechnicalTemplate = () => (
     <>
-      <div className="flex justify-between items-start mb-8">
-        <div>
-          <h1 className="text-4xl font-mono font-bold text-black">{personalInfo.fullName || 'Your Name'}</h1>
-          {personalInfo.professionalTitle && <p className="text-xl font-mono text-gray-600">{personalInfo.professionalTitle}</p>}
-        </div>
-        <div className="text-right text-sm font-mono text-gray-600">
-          {personalInfo.email && <div>{personalInfo.email}</div>}
+      <div className="mb-8">
+        <h1 className="text-4xl font-mono font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-xl font-mono text-gray-600 mb-4">{personalInfo.professionalTitle}</p>}
+        <div className="text-sm font-mono text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
+          {personalInfo.email && <div className="break-all">{personalInfo.email}</div>}
           {personalInfo.phone && <div>{personalInfo.phone}</div>}
-          {personalInfo.portfolio && <div>{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</div>}
+          {personalInfo.portfolio && <div className="break-all">{personalInfo.portfolio.replace(/https?:\/\/(www\.)?/, '')}</div>}
         </div>
       </div>
       {skills.technical.length > 0 && (
         <div className="mb-8">
           <h2 className="font-mono text-sm uppercase tracking-wider text-black mb-4">Technical Skills</h2>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {skills.technical.map((s, i) => (
               <div key={i} className="bg-gray-100 p-2 text-center text-sm font-mono">{s.name || s}</div>
             ))}
@@ -583,8 +582,10 @@ ${certifications.map(c => `
       <div className="text-center mb-10 border-b-2 border-black pb-6">
         <h1 className="text-4xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.professionalTitle && <p className="text-lg text-gray-700 font-medium">{personalInfo.professionalTitle}</p>}
-        <div className="mt-3 text-sm text-gray-600">
-          {personalInfo.email} | {personalInfo.phone}
+        <div className="mt-3 text-sm text-gray-600 flex flex-wrap justify-center gap-2">
+          {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+          {personalInfo.phone && <span className="text-gray-400">|</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
         </div>
       </div>
       {renderEducation()}
@@ -602,30 +603,24 @@ ${certifications.map(c => `
 
   const renderHybridTemplate = () => (
     <>
-      <div className="grid grid-cols-12 gap-6 mb-8">
-        <div className="col-span-8">
-          <h1 className="text-5xl font-bold text-black">{personalInfo.fullName || 'Your Name'}</h1>
-          {personalInfo.professionalTitle && <p className="text-xl text-gray-600 mt-1">{personalInfo.professionalTitle}</p>}
-        </div>
-        <div className="col-span-4 bg-black text-white p-4 text-sm">
-          {personalInfo.email && <div className="mb-1">{personalInfo.email}</div>}
-          {personalInfo.phone && <div className="mb-1">{personalInfo.phone}</div>}
+      <div className="mb-8">
+        <h1 className="text-5xl font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.professionalTitle && <p className="text-xl text-gray-600 mb-4">{personalInfo.professionalTitle}</p>}
+        <div className="bg-black text-white p-4 text-sm flex flex-wrap gap-x-4 gap-y-1">
+          {personalInfo.email && <div className="break-all">{personalInfo.email}</div>}
+          {personalInfo.phone && <div>{personalInfo.phone}</div>}
           {personalInfo.address && <div>{personalInfo.address}</div>}
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-4">
-          {renderSkills('hybrid')}
-          {renderCertifications()}
-        </div>
-        <div className="col-span-8">
-          {personalInfo.summary && (
-            <div className="mb-8 text-gray-700">{personalInfo.summary}</div>
-          )}
-          {renderExperience()}
-          {renderEducation()}
-          {renderProjects()}
-        </div>
+      <div className="space-y-6">
+        {renderSkills('hybrid')}
+        {personalInfo.summary && (
+          <div className="text-gray-700">{personalInfo.summary}</div>
+        )}
+        {renderExperience()}
+        {renderEducation()}
+        {renderProjects()}
+        {renderCertifications()}
       </div>
     </>
   );
@@ -636,11 +631,11 @@ ${certifications.map(c => `
         <div className="text-center">
           <h1 className="text-4xl font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
           {personalInfo.professionalTitle && <p className="text-lg text-gray-700">{personalInfo.professionalTitle}</p>}
-          <div className="mt-4 flex justify-center gap-4 text-sm text-gray-600">
-            {personalInfo.email && <span>{personalInfo.email}</span>}
-            {personalInfo.phone && <span>|</span>}
+          <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm text-gray-600">
+            {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+            {personalInfo.phone && <span className="text-gray-400">|</span>}
             {personalInfo.phone && <span>{personalInfo.phone}</span>}
-            {personalInfo.linkedIn && <span>|</span>}
+            {personalInfo.linkedIn && <span className="text-gray-400">|</span>}
             {personalInfo.linkedIn && <span>LinkedIn</span>}
           </div>
         </div>
@@ -662,8 +657,12 @@ ${certifications.map(c => `
       <div className="text-center border-b-4 border-gray-800 pb-8 mb-8">
         <h1 className="text-5xl font-serif font-bold text-black mb-2">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.professionalTitle && <p className="text-xl text-gray-700">{personalInfo.professionalTitle}</p>}
-        <div className="mt-4 text-sm text-gray-600">
-          {personalInfo.address} • {personalInfo.email} • {personalInfo.phone}
+        <div className="mt-4 text-sm text-gray-600 flex flex-wrap justify-center gap-2">
+          {personalInfo.address && <span>{personalInfo.address}</span>}
+          {personalInfo.email && <span className="text-gray-400">•</span>}
+          {personalInfo.email && <span className="break-all">{personalInfo.email}</span>}
+          {personalInfo.phone && <span className="text-gray-400">•</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
         </div>
       </div>
       {personalInfo.summary && (
