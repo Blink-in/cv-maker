@@ -256,31 +256,35 @@ ${certifications.map(c => `
     const hasSkills = skills.technical.length > 0 || skills.soft.length > 0 || skills.languages.length > 0;
     if (!hasSkills) return null;
 
+    const renderSkillItems = (skillList) => (
+      <div className="flex flex-wrap gap-2">
+        {skillList.map((s, i) => (
+          <span key={i} className="px-2 py-1 bg-gray-100 rounded text-sm text-gray-700">
+            {s.name || s}
+          </span>
+        ))}
+      </div>
+    );
+
     return (
       <div className="mb-6">
         <h2 className="text-xl font-bold mb-4 pb-2 border-b border-black">Skills</h2>
         {skills.technical.length > 0 && (
           <div className="mb-3">
             <h3 className="font-semibold text-gray-700 mb-2">Technical Skills</h3>
-            <div className="text-gray-700 text-sm">
-              {skills.technical.map((s, i) => <span key={i}>{(s.name || s)}{i < skills.technical.length - 1 ? ', ' : ''}</span>)}
-            </div>
+            {renderSkillItems(skills.technical)}
           </div>
         )}
         {skills.soft.length > 0 && (
           <div className="mb-3">
             <h3 className="font-semibold text-gray-700 mb-2">Soft Skills</h3>
-            <div className="text-gray-700 text-sm">
-              {skills.soft.map((s, i) => <span key={i}>{(s.name || s)}{i < skills.soft.length - 1 ? ', ' : ''}</span>)}
-            </div>
+            {renderSkillItems(skills.soft)}
           </div>
         )}
         {skills.languages.length > 0 && (
           <div>
             <h3 className="font-semibold text-gray-700 mb-2">Languages</h3>
-            <div className="text-gray-700 text-sm">
-              {skills.languages.map((l, i) => <span key={i}>{(l.name || l)}{i < skills.languages.length - 1 ? ', ' : ''}</span>)}
-            </div>
+            {renderSkillItems(skills.languages)}
           </div>
         )}
       </div>
@@ -497,14 +501,11 @@ ${certifications.map(c => `
           {skills.technical.length > 0 && (
             <div className="mt-8">
               <h3 className="font-bold uppercase text-sm mb-3">Skills</h3>
-              <div className="space-y-2">
+              <div className="flex flex-wrap gap-2">
                 {skills.technical.map((s, i) => (
-                  <div key={i} className="text-sm">
-                    <div className="h-1 bg-gray-200 rounded">
-                      <div className="h-1 bg-black rounded" style={{ width: `${60 + Math.random() * 40}%` }}></div>
-                    </div>
-                    <div className="text-xs mt-1">{s.name || s}</div>
-                  </div>
+                  <span key={i} className="px-2 py-1 bg-gray-200 rounded text-xs">
+                    {s.name || s}
+                  </span>
                 ))}
               </div>
             </div>
