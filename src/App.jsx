@@ -16,7 +16,7 @@ function App() {
       <ScrollToTop />
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
-        <main id="main-content" className="flex-grow">
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/templates" element={<TemplateSelection />} />
