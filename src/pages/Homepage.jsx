@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  FileText, Sparkles, BarChart3, CheckCircle, ArrowRight, 
-  Download, Users, Zap, Target, Clock, Shield, Globe, Wand2
+  FileText, BarChart3, CheckCircle, ArrowRight, 
+  Download, Search, ListChecks, HelpCircle, Wand2
 } from 'lucide-react';
 import Hero from '../components/Hero';
 
@@ -41,6 +41,38 @@ const Homepage = () => {
     { value: '95%', label: 'Success Rate' },
     { value: '500+', label: 'Templates' },
     { value: 'Free', label: 'To Use' },
+  ];
+
+  const cvMistakes = [
+    'Using a generic summary that does not match the role you want.',
+    'Listing responsibilities without measurable results or outcomes.',
+    'Leaving out keywords that recruiters and ATS tools look for.',
+    'Crowding too much text into one page with weak section hierarchy.',
+  ];
+
+  const atsChecklist = [
+    'Use a clear job title and a summary aligned with the position.',
+    'Add measurable achievements with numbers, percentages, or scope.',
+    'Keep headings standard: Experience, Education, Skills, Projects.',
+    'Include the tools, platforms, and certifications the role requires.',
+  ];
+
+  const faqs = [
+    {
+      question: 'What makes a CV ATS-friendly?',
+      answer:
+        'An ATS-friendly CV uses clear section headings, role-specific keywords, simple formatting, and measurable achievements recruiters can scan quickly.',
+    },
+    {
+      question: 'How long should a CV be?',
+      answer:
+        'Most early and mid-career professionals should aim for one page, while senior professionals can justify two pages if every section adds relevant value.',
+    },
+    {
+      question: 'Should I tailor my CV for every application?',
+      answer:
+        'Yes. Tailoring your summary, keywords, and highlighted achievements to each role improves both recruiter relevance and ATS match rates.',
+    },
   ];
 
   const testimonials = [
@@ -158,6 +190,106 @@ const Homepage = () => {
               Get Started Free
               <ArrowRight className="w-5 h-5" />
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Practical CV Advice for Real Job Applications
+            </h2>
+            <p className="text-lg text-gray-600">
+              A strong CV does more than look polished. It helps recruiters understand your value fast,
+              shows evidence of impact, and gives applicant tracking systems the signals they need to rank
+              your profile accurately.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Search className="w-6 h-6 text-[#1783e0]" />
+                <h3 className="text-2xl font-semibold text-gray-900">Common CV Mistakes</h3>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Many applications fail before interview stage because the document is too broad, too vague,
+                or missing proof of performance.
+              </p>
+              <div className="space-y-4">
+                {cvMistakes.map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-[#1783e0] mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+              <div className="flex items-center gap-3 mb-4">
+                <ListChecks className="w-6 h-6 text-[#1783e0]" />
+                <h3 className="text-2xl font-semibold text-gray-900">ATS Optimization Checklist</h3>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Use this quick checklist before you export your resume. These basics improve readability,
+                keyword matching, and recruiter trust.
+              </p>
+              <div className="space-y-4">
+                {atsChecklist.map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                How to Write a CV Recruiters Can Scan in Seconds
+              </h2>
+              <div className="space-y-5 text-gray-600 text-lg leading-8">
+                <p>
+                  Start with a headline and summary that clearly state the role you want and the value you bring.
+                  Then structure your experience around outcomes, not just duties. Recruiters respond faster when
+                  they can see growth, ownership, revenue impact, cost savings, process improvements, or delivery speed.
+                </p>
+                <p>
+                  Skills sections work best when they support the story told in your work history. Instead of stuffing
+                  every tool into a long list, focus on the technologies, platforms, and strengths that appear in your
+                  target job descriptions. This keeps the CV relevant and improves keyword alignment without making the
+                  page feel artificial.
+                </p>
+                <p>
+                  Before sending your application, review your CV against one live vacancy. Mirror the employer&apos;s language
+                  where it honestly matches your background, tighten weak bullet points, and remove sections that do not
+                  help you compete for that role.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+              <div className="flex items-center gap-3 mb-5">
+                <HelpCircle className="w-6 h-6 text-[#1783e0]" />
+                <h3 className="text-2xl font-semibold text-gray-900">Quick Answers</h3>
+              </div>
+              <div className="space-y-6">
+                {faqs.map((faq) => (
+                  <div key={faq.question}>
+                    <h4 className="font-semibold text-gray-900 mb-2">{faq.question}</h4>
+                    <p className="text-gray-600">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

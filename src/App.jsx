@@ -9,11 +9,13 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import RouteExperienceManager from './components/RouteExperienceManager';
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
+      <RouteExperienceManager />
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
         <main className="flex-grow">
