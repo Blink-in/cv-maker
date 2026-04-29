@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  User, GraduationCap, Briefcase, Code, Award, FolderGit2, 
-  ChevronLeft, ChevronRight, Save, Eye, CheckCircle, FileText, 
+import { Helmet } from 'react-helmet-async';
+import {
+  User, GraduationCap, Briefcase, Code, Award, FolderGit2,
+  ChevronLeft, ChevronRight, Save, Eye, CheckCircle, FileText,
   LayoutTemplate
 } from 'lucide-react';
 import useCVStore from '../store/cvStore';
@@ -99,6 +100,29 @@ const CVForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>Create Your CV | Step {currentStep + 1}: {steps[currentStep].name} - CV-mave</title>
+        <meta name="title" content="Create Your CV | Step {currentStep + 1}: {steps[currentStep].name} - CV-mave" />
+        <meta name="description" content="Build your professional CV step by step. Currently on Step {currentStep + 1}: {steps[currentStep].name}. Fill in your details and select from 15+ ATS-friendly templates. Free to use." />
+        <meta name="keywords" content="CV builder, create CV, online CV maker, resume builder, fill CV, CV form, professional resume" />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://cv-mave.vercel.app/create-cv" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Create Your CV | CV-mave" />
+        <meta property="og:description" content="Build your professional CV step by step with our easy-to-use form. Choose templates and download as PDF." />
+        <meta property="og:url" content="https://cv-mave.vercel.app/create-cv" />
+        <meta property="og:site_name" content="CV-mave" />
+        <meta property="og:image" content="https://cv-mave.vercel.app/cv-form-preview.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Create Your CV | CV-mave" />
+        <meta name="twitter:description" content="Build your professional CV step by step with our easy-to-use form." />
+      </Helmet>
+
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
