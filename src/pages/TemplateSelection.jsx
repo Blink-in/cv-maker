@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { FileText, ArrowRight } from 'lucide-react';
 import useCVStore from '../store/cvStore';
 import AnimatedSection from '../components/AnimatedSection';
@@ -11,6 +12,44 @@ const TemplateSelection = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>CV Templates | Choose From 15+ Professional Resume Templates - CV-mave</title>
+        <meta name="title" content="CV Templates | Choose From 15+ Professional Resume Templates - CV-mave" />
+        <meta name="description" content="Browse our collection of ATS-friendly CV templates. Choose from classic, modern, creative, executive, and technical designs. All templates export perfectly to PDF and are free to use." />
+        <meta name="keywords" content="CV templates, resume templates, professional CV, ATS-friendly templates, template gallery, CV design, resume formats" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://cv-mave.vercel.app/templates" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="CV Templates | Choose From 15+ Professional Resume Templates - CV-mave" />
+        <meta property="og:description" content="Browse our collection of ATS-friendly CV templates. Choose from classic, modern, creative, executive, and technical designs." />
+        <meta property="og:url" content="https://cv-mave.vercel.app/templates" />
+        <meta property="og:site_name" content="CV-mave" />
+        <meta property="og:image" content="https://cv-mave.vercel.app/templates-preview.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="CV Templates | Choose From 15+ Professional Resume Templates - CV-mave" />
+        <meta name="twitter:description" content="Browse our collection of ATS-friendly CV templates. All templates export perfectly to PDF." />
+
+        {/* Structured Data */}
+        <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "CV Templates",
+          "description": "Collection of professional ATS-friendly CV templates for various industries",
+          "url": "https://cv-mave.vercel.app/templates",
+          "numberOfItems": 15,
+          "image": "https://cv-mave.vercel.app/templates-preview.jpg"
+        })}
+        </script>
+      </Helmet>
+
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-[#1783e0] to-[#1567c4] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

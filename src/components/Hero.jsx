@@ -29,23 +29,23 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative bg-gradient-to-br from-gray-50 to-blue-50 py-16 md:py-20 overflow-hidden">
+    <section aria-labelledby="hero-heading" className="relative bg-gradient-to-br from-gray-50 to-blue-50 py-16 md:py-20 overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30" aria-hidden="true">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
         <div className="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <header className="text-center mb-12">
           <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-4 h-4" aria-hidden="true" />
             AI-Powered CV Builder
           </span>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-4xl mx-auto mb-6">
-            Build your CV with an{" "}
+          <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-4xl mx-auto mb-6">
+            Build your CV with an{' '}
             <span className="text-[#1783e0]">AI-powered builder</span>
           </h1>
 
@@ -53,53 +53,53 @@ const Hero = () => {
             Create a job-winning CV in minutes with smart suggestions, ATS optimization, and professional templates.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+          <nav aria-label="Main actions" className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <button 
               onClick={() => navigate('/templates')}
               className="inline-flex items-center justify-center gap-2 bg-[#1783e0] text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-[#1567c4] transition-all transform hover:scale-105 font-semibold text-lg"
             >
               Create CV
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </button>
 
             <button 
               onClick={() => navigate('/analyze')}
               className="inline-flex items-center justify-center gap-2 border-2 border-[#1783e0] text-[#1783e0] px-8 py-4 rounded-xl hover:bg-[#1783e0] hover:text-white transition-all font-semibold text-lg"
             >
-              <BarChart3 className="w-5 h-5" />
+              <BarChart3 className="w-5 h-5" aria-hidden="true" />
               Analyze CV
             </button>
-          </div>
-        </div>
+          </nav>
+        </header>
 
         {/* Demo CV Section */}
-        <div className="mb-16">
-          <div className={`text-center mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+        <section aria-labelledby="demo-cv-heading" className="mb-16">
+          <header className={`text-center mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 id="demo-cv-heading" className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               See How Your CV Will Look
             </h2>
             <p className="text-gray-600">Create a professional CV in just a few minutes</p>
-          </div>
+          </header>
 
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
             {/* Animated Demo CV */}
             <div className={`relative transition-all duration-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`} style={{ transitionDelay: '200ms' }}>
               {/* Floating elements around CV */}
               <div className="absolute -top-6 -left-6 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center animate-bounce" style={{ animationDelay: '0s' }}>
-                <FileText className="w-6 h-6 text-green-600" />
+                <FileText className="w-6 h-6 text-green-600" aria-hidden="true" />
               </div>
               <div className="absolute -top-4 -right-8 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center animate-bounce" style={{ animationDelay: '0.5s' }}>
-                <DownloadIcon className="w-5 h-5 text-blue-600" />
+                <DownloadIcon className="w-5 h-5 text-blue-600" aria-hidden="true" />
               </div>
               <div className="absolute -bottom-4 -left-4 w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center animate-bounce" style={{ animationDelay: '1s' }}>
-                <Eye className="w-5 h-5 text-purple-600" />
+                <Eye className="w-5 h-5 text-purple-600" aria-hidden="true" />
               </div>
               <div className="absolute -bottom-2 -right-6 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center animate-bounce" style={{ animationDelay: '1.5s' }}>
-                <FileCheck className="w-6 h-6 text-amber-600" />
+                <FileCheck className="w-6 h-6 text-amber-600" aria-hidden="true" />
               </div>
 
               {/* CV Preview Card */}
-              <div className="bg-white rounded-2xl shadow-2xl w-80 md:w-96 overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-3xl">
+              <article className="bg-white rounded-2xl shadow-2xl w-80 md:w-96 overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-3xl" aria-label="CV preview">
                 {/* CV Header */}
                 <div className={`h-2 bg-gradient-to-r from-[#1783e0] to-[#10b981] transition-all duration-500 ${cvStep >= 0 ? 'opacity-100' : 'opacity-30'}`}></div>
                 <div className="p-6">
@@ -137,12 +137,12 @@ const Hero = () => {
                   {/* Completed Check */}
                   <div className={`mt-4 pt-4 border-t border-gray-100 transition-all duration-500 ${cvStep >= 5 ? 'opacity-100' : 'opacity-0'}`}>
                     <div className="flex items-center justify-center gap-2 text-green-600">
-                      <FileCheck className="w-5 h-5" />
+                      <FileCheck className="w-5 h-5" aria-hidden="true" />
                       <span className="font-medium">CV Ready!</span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </div>
 
             {/* Features List with Animation */}
@@ -160,7 +160,7 @@ const Hero = () => {
                     className="flex items-start gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:transform hover:translate-x-2"
                     style={{ transitionDelay: `${index * 100 + 500}ms` }}
                   >
-                    <span className="text-2xl">{feature.icon}</span>
+                    <span className="text-2xl" aria-hidden="true">{feature.icon}</span>
                     <div>
                       <h3 className="font-semibold text-gray-900">{feature.title}</h3>
                       <p className="text-sm text-gray-600">{feature.desc}</p>
@@ -170,10 +170,11 @@ const Hero = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Quick Stats */}
-        <div className={`flex flex-wrap justify-center gap-8 md:gap-16 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '600ms' }}>
+        <section aria-labelledby="stats-heading" className={`flex flex-wrap justify-center gap-8 md:gap-16 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '600ms' }}>
+          <h2 id="stats-heading" className="sr-only">Our Impact</h2>
           <div>
             <div className="text-3xl font-bold text-[#1783e0]">50K+</div>
             <div className="text-gray-500">CVs Created</div>
@@ -186,7 +187,7 @@ const Hero = () => {
             <div className="text-3xl font-bold text-[#1783e0]">15+</div>
             <div className="text-gray-500">Templates</div>
           </div>
-        </div>
+        </section>
 
         {/* Feature Pills */}
         <div className={`mt-12 flex flex-wrap justify-center gap-3 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '700ms' }}>
