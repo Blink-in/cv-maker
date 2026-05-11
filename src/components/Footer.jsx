@@ -114,9 +114,7 @@ const Footer = () => {
           <p className="text-sm text-gray-400">
             © {new Date().getFullYear()} CV-mave. All rights reserved.
           </p>
-          <p className="text-sm text-gray-400">
-            Made with ❤️ for job seekers worldwide
-          </p>
+          
         </div>
       </div>
     </footer>
