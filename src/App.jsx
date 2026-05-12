@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import TemplateSelection from './pages/TemplateSelection';
 import CVForm from './pages/CVForm';
@@ -9,7 +9,17 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import RouteExperienceManager from './components/RouteExperienceManager'
+import RouteExperienceManager from './components/RouteExperienceManager';
+import useCVStore from './store/cvStore';
+
+// Route guard: redirect to /templates if no template selected
+const RequireTemplate = ({ children }) => {
+  const selectedTemplate = useCVStore((state) => state.selectedTemplate);
+  if (!selectedTemplate) {
+    return <Navigate to="/templates" replace />;
+  }
+  return children;
+};
 
 function App() {
   return (
@@ -22,7 +32,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/templates" element={<TemplateSelection />} />
-            <Route path="/create-cv" element={<CVForm />} />
+            <Route 
+              path="/create-cv" 
+              element={
+                <RequireTemplate>
+                  <CVForm />
+                </RequireTemplate>
+              } 
+            />
             <Route path="/preview" element={<Preview />} />
             <Route path="/analyze" element={<CVAnalysis />} />
             <Route path="/cover-letter" element={<CoverLetterWriter />} />
