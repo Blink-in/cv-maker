@@ -50,13 +50,6 @@ const CVForm = () => {
     setSelectedTemplate(template);
   };
 
-  // Redirect if no template selected - but keep existing data
-  React.useEffect(() => {
-    if (!selectedTemplate) {
-      navigate('/templates');
-    }
-  }, [selectedTemplate, navigate]);
-
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
